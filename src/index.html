@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="">
+
+<head>
+    @@include("./partials/title-meta.html", {"title": "T-Wind"})
+
+    <link rel="stylesheet" href="assets/libs/jsvectormap/css/jsvectormap.min.css">
+
+    @@include('./partials/head-css.html')
+ 
+   <!--<link rel="stylesheet" href="assets/libs/bootstrap/css/bootstrap.min.css">-->
+  
+    <script src="assets/js/pages/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/linq.js/2.2.0.2/linq.min.js" integrity="sha512-YjfMqQiOsDn17vJOLyrgFesm/wE36jyZIrYbmY4ChlFo+dxaAanQdo4xYWOAGQIDHQ9G5sIHTV4i5V4nzn/sQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
+
+   
+  
+   
+</head>
+
+@@include('./partials/body.html')
+
+<!-- leftbar-tab-menu -->
+@@include('./partials/horizontal.html')
+
+<div class="container  mx-auto px-2">
+    <div class="flex flex-wrap">
+        <div class="flex items-center py-4 w-full">
+            <div class="w-full">
+                <div class="">
+                    <div class="flex flex-wrap justify-between">
+                        <div class="items-center ">
+                            <h1 class="font-semibold text-xl mb-0 block dark:text-slate-100">行政院農業委員會農業試驗所</h1>
+                            <ol class="list-reset flex text-sm">
+                                <li class="text-gray-500">田區智慧配水控制系統</li>
+                                <li><span class="text-gray-500 mx-2">/</span></li>
+                                <li class="text-blue-600 hover:text-blue-700">資訊總攬</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end container-->
+
+<div class="container mx-auto px-2  min-h-[calc(100vh-138px)]  relative pb-14">
+
+    <!--end inner-grid-->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4 mb-4">
+        <div class="sm:col-span-1  md:col-span-2 lg:col-span-4 xl:col-span-1 ">
+            <div class="h-full card w-full relative overflow-hidden">
+                <div class="card-header">
+                    <h4 class="font-medium">田區相關資訊</h4>
+                </div>
+                <div class="flex flex-col  card-body">
+                    <div class="w-full mx-auto mb-2">
+                        <div class="flex items-center">
+                            <div class="w-1/4 bg-blue-500 h-2 rounded-tl rounded-bl mr-0.5"></div>
+                            <div class="w-1/4 bg-gray-200 dark:bg-slate-700 h-2 mr-0.5 relative">
+                                <div class="h-2 bg-yellow-500"></div>
+                            </div>
+                            <div class="w-1/4 bg-gray-200 dark:bg-slate-700 h-2 mr-0.5 relative">
+                                <div class="h-2 w-1/2 bg-pink-500"></div>
+                            </div>
+                            <div class="w-1/4 bg-gray-200 dark:bg-slate-700 h-2 rounded-tr rounded-br"></div>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="inline-block py-2 min-w-full sm:px-6 lg:px-8">
+                            <div class="overflow-hidden">
+                                <table class="min-w-full ">
+                                    <thead class="bg-gray-50 dark:bg-gray-700">
+                                        <tr>
+                                            <th scope="col"
+                                                class="p-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                                田區名稱
+                                            </th>
+                                            <th scope="col"
+                                                class="p-3 text-right text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                                進水量
+                                            </th>
+                                            <th scope="col"
+                                                class="p-3 text-right text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                                灌溉量
+                                            </th>
+                                            <th scope="col"
+                                                class="p-3 text-right text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                                排水量
+                                            </th>
+                                           
+                                        </tr>
+                                    </thead>
+                                    <!--#region  田區相關資訊-->
+                                    <tbody id="fieldInformationContainer">
+                                        
+                                    </tbody>
+                                    <!--#endregion-->
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end inner-grid-->
+        </div>
+        <div class="sm:col-span-1  md:col-span-2 lg:col-span-4 xl:col-span-1 ">
+            <div class="h-full card w-full relative overflow-hidden">
+                <div class="card-header">
+                    <h4 class="font-medium">電動水閘門</h4>
+                </div>
+                <div class="flex flex-col  card-body">
+
+                    <div class="w-full mx-auto mb-2">
+                        <div class="flex items-center">
+                            <div class="w-1/4 bg-blue-500 h-2 rounded-tl rounded-bl mr-0.5"></div>
+                            <div class="w-1/4 bg-gray-200 dark:bg-slate-700 h-2 mr-0.5 relative">
+                                <div class="h-2 bg-yellow-500"></div>
+                            </div>
+                            <div class="w-1/4 bg-gray-200 dark:bg-slate-700 h-2 mr-0.5 relative">
+                                <div class="h-2 w-1/2 bg-pink-500"></div>
+                            </div>
+                            <div class="w-1/4 bg-gray-200 dark:bg-slate-700 h-2 rounded-tr rounded-br"></div>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="inline-block py-2 min-w-full sm:px-6 lg:px-8">
+                            <div class="overflow-hidden">
+                                <table class="min-w-full">
+                                    <thead class="bg-gray-50 dark:bg-gray-700">
+                                        <tr>
+                                            <th scope="col"
+                                                class="p-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                                設備項目
+                                            </th>
+                                            <th scope="col"
+                                                class="p-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                                控制模式
+                                            </th>
+                                            <th scope="col"
+                                                class="p-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                                目前狀態
+                                            </th>
+                                            <th scope="col"
+                                                class="p-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                                控制（開啟/關閉)
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="electricWaterGateContainer">
+ 
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end inner-grid-->
+        </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 mb-4">
+        <div class="sm:col-span-1  md:col-span-1 lg:col-span-2 xl:col-span-1 order-2 lg:order-3 xl:order-2">
+            <div class="card w-full relative overflow-hidden">
+                <div class="card-header">
+                    <h4 class="font-medium">即時流量資訊清單</h4>
+                </div>
+                <div class="card-body">
+                    <div class="w-full mx-auto mb-2">
+                        <div class="flex items-center">
+                            <div class="w-1/4 bg-blue-500 h-2 rounded-tl rounded-bl mr-0.5"></div>
+                            <div class="w-1/4 bg-gray-200 dark:bg-slate-700 h-2 mr-0.5 relative">
+                                <div class="h-2 bg-yellow-500"></div>
+                            </div>
+                            <div class="w-1/4 bg-gray-200 dark:bg-slate-700 h-2 mr-0.5 relative">
+                                <div class="h-2 w-1/2 bg-pink-500"></div>
+                            </div>
+                            <div class="w-1/4 bg-gray-200 dark:bg-slate-700 h-2 rounded-tr rounded-br"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                            <div class="inline-block py-2 min-w-full sm:px-6 lg:px-8">
+                                <div class="overflow-hidden">
+                                    <table class="min-w-full">
+                                        <thead class="bg-gray-50 dark:bg-gray-700">
+                                            <tr>
+                                                <th scope="col"
+                                                    class="p-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                                    設備名稱
+                                                </th>
+                                                <th scope="col"
+                                                    class="p-3 text-xs font-medium tracking-wider text-right text-gray-700 uppercase dark:text-gray-400">
+                                                    瞬時流量
+                                                </th>
+                                                <th scope="col"
+                                                    class="p-3 text-xs font-medium tracking-wider text-right text-gray-700 uppercase dark:text-gray-400">
+                                                    累計流量
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="waterFlowInformation">
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sm:col-span-1  md:col-span-1 lg:col-span-2 xl:col-span-1 order-2 lg:order-3 xl:order-2">
+            <div class="card w-full relative overflow-hidden">
+                <div class="card-header">
+                    <h4 class="font-medium">土壤資訊設備清單</h4>
+                </div>
+                <div class="card-body">
+                    <div class="w-full mx-auto mb-2">
+                        <div class="flex items-center">
+                            <div class="w-1/4 bg-blue-500 h-2 rounded-tl rounded-bl mr-0.5"></div>
+                            <div class="w-1/4 bg-gray-200 dark:bg-slate-700 h-2 mr-0.5 relative">
+                                <div class="h-2 bg-yellow-500"></div>
+                            </div>
+                            <div class="w-1/4 bg-gray-200 dark:bg-slate-700 h-2 mr-0.5 relative">
+                                <div class="h-2 w-1/2 bg-pink-500"></div>
+                            </div>
+                            <div class="w-1/4 bg-gray-200 dark:bg-slate-700 h-2 rounded-tr rounded-br"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                            <div class="inline-block py-2 min-w-full sm:px-6 lg:px-8">
+                                <div class="overflow-hidden">
+                                    <table class="min-w-full">
+                                        <thead class="bg-gray-50 dark:bg-gray-700">
+                                            <tr>
+                                                <th scope="col"
+                                                    class="p-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                                    設備名稱
+                                                </th>
+                                                <th scope="col"
+                                                    class="p-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                                   <!-- 最高濕度-->
+                                                </th>
+                                                <th scope="col"
+                                                    class="p-3 text-xs font-medium tracking-wider text-right text-gray-700 uppercase dark:text-gray-400">
+                                                    目前濕度
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="moistureMeterContainer">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sm:col-span-1  md:col-span-1 lg:col-span-2 xl:col-span-1 order-2 lg:order-3 xl:order-2">
+            <div class="card w-full relative overflow-hidden">
+                <div class="card-header">
+                    <h4 class="font-medium">水位資訊設備清單</h4>
+                </div>
+                <div class="card-body">
+                    <div class="w-full mx-auto mb-2">
+                        <div class="flex items-center">
+                            <div class="w-1/4 bg-blue-500 h-2 rounded-tl rounded-bl mr-0.5"></div>
+                            <div class="w-1/4 bg-gray-200 dark:bg-slate-700 h-2 mr-0.5 relative">
+                                <div class="h-2 bg-yellow-500"></div>
+                            </div>
+                            <div class="w-1/4 bg-gray-200 dark:bg-slate-700 h-2 mr-0.5 relative">
+                                <div class="h-2 w-1/2 bg-pink-500"></div>
+                            </div>
+                            <div class="w-1/4 bg-gray-200 dark:bg-slate-700 h-2 rounded-tr rounded-br"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                            <div class="inline-block py-2 min-w-full sm:px-6 lg:px-8">
+                                <div class="overflow-hidden">
+                                    <table class="min-w-full">
+                                        <thead class="bg-gray-50 dark:bg-gray-700">
+                                            <tr>
+                                                <th scope="col"
+                                                    class="p-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                                    設備名稱
+                                                </th>
+                                                <th scope="col"
+                                                    class="p-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                                    <!--最高水位-->
+                                                </th>
+                                                <th scope="col"
+                                                    class="p-3 text-xs font-medium tracking-wider text-right text-gray-700 uppercase dark:text-gray-400">
+                                                    目前水位
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="waterLevelContainer">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end inner-grid-->
+
+    <!-- footer -->
+    @@include('./partials/footer.html')
+</div>
+<!--end container-->
+
+<script src="assets/libs/simplebar/simplebar.min.js"></script>
+<script src="assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+<script src="assets/libs/jsvectormap/maps/world.js"></script>
+<script src="assets/libs/apexcharts/apexcharts.min.js"></script>
+<script src="assets/libs/echarts/echarts.min.js"></script>
+<script src="assets/js/pages/ecommerce-index.init.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+    $(function(){
+        var staff= horizontal.startUp();
+        index.startUp(staff);
+
+    });
+   </script>
+
+</body>
+
+</html>

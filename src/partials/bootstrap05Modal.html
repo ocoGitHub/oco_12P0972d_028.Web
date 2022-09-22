@@ -1,0 +1,255 @@
+<!--  
+    **bootstrap 5.x.x Modal**
+   part 1: Confirm  (button: 確定/取消)
+   part 2: 等待
+   part 2: 結果(button: 確定)
+-->
+<div class="container">
+<div class="modal top fade" id="modal1" tabindex="-1" aria-labelledby="modal1Label"
+  aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false"  >
+    <div class="modal-dialog" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4  id="modalTitle">Modal title</h4>
+         <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+        </div>
+        <div class="modal-body">
+          <div id="modalContextArea">
+            <div id="modalContextText">  
+               <!--填入確認文字-->
+            </div>
+          </div>
+          <div id="modalWaittingArea"  >
+            <div class="row" >
+                <div class="col-md-1 col-sm-1 col-1">
+                    <span class="spinner-grow" role="status">   </span>
+                    
+                </div>
+                <div class="col-md-7 col-sm-7 col-7 text-left">
+                    <h3>&nbsp;請&nbsp;&nbsp;稍&nbsp;&nbsp;候&nbsp;......</h3>
+                </div>
+               
+           </div>
+          </div>
+          <div id="modalResultContextArea" >
+            <div id="modalResultContext">  
+                 <!--結果-->
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+           
+          <button type="button" id="btnCancel" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" id='btnSubmit' onclick="bootstrap05Modal.invokeSubmitCallback();" class="btn btn-primary">確定</button>
+          
+        </div>
+      </div>
+    </div>
+</div>
+</div>
+<script>
+   var bootstrap05Modal={
+        autoHideModalInterval:4000,
+        submitCallback:null,
+        cancelCallback:null,
+        /**
+         * @method autoHideModal 自動關閉 Modal
+        */
+        autoHideModal:function(){
+            setTimeout(
+            ()=>{ bootstrap05Modal.hideModal();}
+            ,bootstrap05Modal.autoHideModalInterval);
+        },
+        invokeSubmitCallback:function(){
+            if(bootstrap05Modal.submitCallback !=null){
+                bootstrap05Modal.submitCallback();
+            }
+        },
+        invokeCancelCallback:function(){
+            if(bootstrap05Modal.cancelCallback !=null){
+                bootstrap05Modal.cancelCallback();
+            }
+        },
+        modalId:'modal1',
+        getModalJq:function(){
+            var idSelector='#' + bootstrap05Modal.modalId;
+            var rtnV=$(idSelector);
+            return rtnV;
+        },
+        showModal:function(){
+              var jq=bootstrap05Modal.getModalJq();
+              jq.modal( 'show');
+        },
+       
+
+        modalTitleId:'modalTitle',
+        getModalTitleJq:function(){
+            var idSelector='#' + bootstrap05Modal.modalTitleId;
+            var rtnV=$(idSelector);
+            return rtnV;
+        },
+        setModalTitleText:function(text){
+            var jq=bootstrap05Modal.getModalTitleJq();
+            jq.text(text);
+        } ,
+
+        modalContextAreaId:'modalContextArea',
+        getModalContextAreaJq:function(){
+            var idSelector='#' + bootstrap05Modal.modalContextAreaId;
+            var rtnV=$(idSelector);
+            return rtnV;
+        },
+        modalContextTextId:'modalContextText',
+        getModalContextTextJq:function(){
+            var idSelector='#' + bootstrap05Modal.modalContextTextId;
+            var rtnV=$(idSelector);
+            return rtnV;
+        },
+        setModalContextTextHtml:function(context){
+             var jq=bootstrap05Modal.getModalContextTextJq();
+             var html="<h4>" +context +"</h4>";
+             jq.html(html);
+        },
+
+
+        modalWaittingAreaId:'modalWaittingArea',
+        getModalWaittingAreaJq:function(){
+            var idSelector='#' + bootstrap05Modal.modalWaittingAreaId;
+            var rtnV=$(idSelector);
+            return rtnV;
+        },
+
+        modalResultContextAreaId:'modalResultContextArea',
+        getModalResultContextAreaJq:function(){
+            var idSelector='#' + bootstrap05Modal.modalResultContextAreaId;
+            var rtnV=$(idSelector);
+            return rtnV;
+        },
+
+        modalResultContextId:'modalResultContext',
+        getModalResultContextJq:function(){
+                var idSelector='#' + bootstrap05Modal.modalResultContextId;
+                var rtnV=$(idSelector);
+               return rtnV;
+        },
+        
+        btnCancelId:'btnCancel',
+        getBtnCancelJq:function(){
+            var idSelector='#' + bootstrap05Modal.btnCancelId;
+            var rtnV=$(idSelector);
+            return rtnV;
+        },
+        setBtnCancelVisiblity:function(visible){
+            var btn=bootstrap05Modal.getBtnCancelJq();
+            if(visible){
+                btn.show();
+            }  
+            else{
+                btn.hide();
+            }
+        },
+        btnSubmitId:'btnSubmit',
+        getBtnSubmitJq:function(){
+            var idSelector='#' + bootstrap05Modal.btnSubmitId;
+            var rtnV=$(idSelector);
+            return rtnV;
+        },  
+        setBtnSubmitVisiblity:function(visible){
+            var btn=bootstrap05Modal.getBtnSubmitJq();
+            if(visible){
+                btn.show();
+            }  
+            else{
+                btn.hide();
+            }
+        },     
+        /**
+         * @method setConfirmStateContextDisplay 設定Modal 剛啟動時的 (待Confirm) 的內容
+        */
+        setConfirmStateContextDisplay:function(){
+                 // hide: 
+                 bootstrap05Modal.getModalResultContextAreaJq().hide();
+                 bootstrap05Modal.getModalWaittingAreaJq().hide();                 
+                 // display:
+                 bootstrap05Modal.getModalContextAreaJq().show();
+        },
+
+        /**
+         *  @method setConfirmStateContextDisplay 設定Modal 在等待狀態時 (waitting) 的內容 
+         */ 
+        setWaittingStateContextDisplay:function(){
+               // hide:
+               bootstrap05Modal.getModalContextAreaJq().hide();
+               bootstrap05Modal.getModalResultContextAreaJq().hide();
+               // display:
+               bootstrap05Modal.getModalWaittingAreaJq().show();
+        },
+
+        /**
+         * @method setResultStateContextDisplay 設定MOdal 在結階段時的 (waitting)內容 
+         */ 
+        setResultStateContextDisplay:function(){
+            // hide:
+            bootstrap05Modal.getModalWaittingAreaJq().hide();
+            bootstrap05Modal.getModalContextAreaJq().hide();
+            // display:
+            bootstrap05Modal.getModalResultContextAreaJq().show();
+        },
+
+
+        setModalResultContext:function(resultText){
+            bootstrap05Modal.setResultStateContextDisplay();
+            bootstrap05Modal.getModalResultContextJq().html("<h4>" +resultText + "</h4>")
+        },
+
+        hideAllButtons:function(){
+            bootstrap05Modal.setBtnSubmitVisiblit(false);
+            bootstrap05Modal.setBtnCancelVisiblity(false);
+        },
+       /**
+        * @method displayModal 顯示Modal 視窗
+        * @param modalTitle  {string}  Modal 標題
+        * @param modalContext {string} Modal 內容
+        * @param hasSubmitBtn {bool} 有没有確認鈕
+        * @param hasCancelBtn {bool} 有没有取消鈕
+        * @param submitCallback {function} 按確定鈕時的 CallBack Function
+        * @param cancelCallback {function} 按取消鈕時的 CallBack Function
+        
+       */
+        displayModal:function(modalTitle,modalContext,hasSubmitBtn,hasCancelBtn,
+                              submitCallback,cancelCallback){
+            //#region 設定 call back function
+            bootstrap05Modal.submitCallback=submitCallback;
+            bootstrap05Modal.cancelCallback=cancelCallback;  
+           
+            //#endregion
+
+            //#region 設定 Modal 標題 
+            bootstrap05Modal.setModalTitleText(setting.systemName + "-"+ modalTitle);
+            bootstrap05Modal.setModalContextTextHtml(modalContext);
+            //#endregion
+
+            bootstrap05Modal.setConfirmStateContextDisplay();
+
+            bootstrap05Modal.setBtnSubmitVisiblity(hasSubmitBtn);
+
+            bootstrap05Modal.setBtnCancelVisiblity(hasCancelBtn);
+
+            // show
+          bootstrap05Modal.showModal()
+        },
+        
+        /**
+         * @method hideModal 隱藏 Modal
+         */ 
+        hideModal:function(){
+            bootstrap05Modal.submitCallback=null;
+            bootstrap05Modal.cancelCallback=null;
+            bootstrap05Modal.resultSubmitCallback;
+            var jq=bootstrap05Modal.getModalJq();
+            jq.modal( 'hide');
+        }
+
+
+   };
+</script>

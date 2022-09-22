@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="">
+
+<head>
+    @@include("./partials/title-meta.html", {"title": "T-Wind"})
+
+    @@include('./partials/head-css.html')
+    <link rel="stylesheet" href="assets/libs/bootstrap/css/bootstrap.min.css">
+    <script src="assets/js/pages/staffLogin.js"></script>
+    @@include('./partials/bootstrap05Modal.html')
+    
+</head>
+
+@@include('./partials/body.html')
+
+        <div class="relative flex flex-col justify-center min-h-screen overflow-hidden">
+            <div class="w-full  m-auto bg-white dark:bg-slate-800/60 rounded shadow-lg ring-2 ring-slate-300/50 dark:ring-slate-700/50 lg:max-w-md">
+                <div class="text-center p-6 bg-slate-900 rounded-t">
+                    <a href="index.html"><img src="assets/images/logo-sm.png" alt="" class="w-14 h-14 mx-auto mb-2"></a>
+                    <script>
+                        function dispSystemInfo(){
+                            window.alert(JSON.stringify(systemInfo.getSystemInfo()))
+                        }
+                    </script>
+                    <h3 class="font-semibold text-white text-xl mb-1" onclick="dispSystemInfo()">行政院農業委員會農業試驗所</h3>
+                    <p class="text-xl text-slate-400">登入</p>
+                </div>
+
+                <div id='app' class="p-6">
+                    <div>
+                        <label for="email" class="label">電子郵件信箱</label>
+                        <input type="email" v-model="staffEmail" id="email" class="form-control dark:bg-slate-800/60 dark:border-slate-700/50" placeholder="電子郵件信箱" >
+                        <div>
+                            系統管理 email: adm@oco.com
+                        </div>
+                        <div>
+                            田區管理 email: fadm@oco.com
+                        </div>    
+                    </div>
+                    <div class="mt-4">
+                        <label for="password" class="label">密碼</label>
+                        <input type="password" id='password' v-model="password" class="form-control dark:bg-slate-800/60 dark:border-slate-700/50" placeholder="請輸入密碼"  >
+                    </div>
+                    <div>密碼: 1111</div>
+                    <a href="#" class="text-xs text-gray-600 hover:underline" onclick="window.alert('請洽管理人員重設密碼')">忘記密碼?</a>&nbsp;&nbsp;
+                    <a href="#" class="text-xs text-gray-600 hover:underline" id="registerNewStaff">註冊新用戶</a>
+                    
+                        
+                 
+                    <div class="mt-6">
+                        <!--<button
+                            class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                            Login
+                        </button>-->
+                      <!--  <div class="row">
+                        <button @click="submit"  class="btn btn-primary btn-block">登入</button>
+                        </div>-->
+                        <button @click="submit"
+                        class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                        登入
+                    </button>
+                    </div>
+                </div>
+                <!--
+                <p class="mb-5 text-sm font-medium text-center text-slate-500"> Don't have an account? <a href="register.html"
+                    class="font-medium text-blue-600 hover:underline">Sign up</a>
+                </p>-->
+            </div>
+        </div>
+
+    <script src="assets/libs/simplebar/simplebar.min.js"></script>
+   
+    <script>
+     $(function(){
+        staffLogin.startUp();
+
+     });
+    </script>
+</body>
+
+</html>

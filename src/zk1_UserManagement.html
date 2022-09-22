@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+   <!--@@include('./partials/bootstrap05Modal.html')-->   
+    <!--<link rel="stylesheet" href="assets/libs/bootstrap/css/bootstrap.min.css">-->
+    
+    @@include("./partials/title-meta.html", {"title": "T-Wind"})
+   
+ @@include('./partials/head-css.html')
+   
+   <script src="assets/js/pages/zk1_UserManagement.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/linq.js/2.2.0.2/linq.min.js" integrity="sha512-YjfMqQiOsDn17vJOLyrgFesm/wE36jyZIrYbmY4ChlFo+dxaAanQdo4xYWOAGQIDHQ9G5sIHTV4i5V4nzn/sQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
+   <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+   <link rel="stylesheet"  href= "https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+   <link rel="stylesheet" href="assets/css/icons.css" />
+
+</head>
+
+@@include('./partials/body.html')
+
+<!-- leftbar-tab-menu -->
+@@include('./partials/horizontal.html')
+
+<div class="container  mx-auto px-2">
+    <div class="flex flex-wrap">
+        <div class="flex items-center py-4 w-full">
+            <div class="w-full">
+                <div class="">
+                    <div class="flex flex-wrap justify-between">
+                        <div class="items-center ">
+                            <h1 class="font-semibold text-xl mb-0 block dark:text-slate-100">行政院農業委員會農業試驗所</h1>
+                            <ol class="list-reset flex text-sm">
+                                <li class="text-gray-500">田區智慧配水控制系統</li>
+                                <li><span class="text-gray-500 mx-2">/</span></li>
+                                <li class="text-blue-600 hover:text-blue-700">用戶管理</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end card-body-->   
+ 
+</div>
+<!--end container-->
+<!-- #region設定使用者狀態等待-->
+<div class="container mx-auto px-2 text-2xl"    id="setStaff_Watting" style="display:none" >
+    <div class="bg-blue-100 border border-blue-400 blue-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="spinner-border
+        animate-spin
+        inline-block
+        w-8
+        h-8
+        border-4
+        rounded-full
+        text-blue-500" role="status">
+          <span class="visually-hidden">Loading...</span>
+         
+        </span>
+        <span class="mt-3  text-blue-700">設定使用者狀態，請稍候......</span>
+      </div>
+</div>
+<!--#endregion-->
+<!-- #region設定使用者狀態OK-->
+<div class="container mx-auto px-2 text-2xl"    id="setStaff_OK"  style="display:none"  >
+    <div class="bg-blue-100 border border-blue-400 blue-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="mt-3  text-blue-700">已經設定</span>
+      </div>
+</div>
+<!--#endregion-->
+<!-- #region設定使用者狀態失敗-->
+<div class="container mx-auto px-2 text-2xl"    id="setStaff_Failed"  style="display:none"  >
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <strong class="font-bold">無法設定用戶狀態：</strong><br/>
+        <div class="block sm:inline" id="setStaff_ErrArea"></div>
+      </div>
+</div>
+<!--#endregion-->
+
+<!--#region 設定權限畫面-->
+<div style='display:none' class='container border text-2xl rounded border-blue-400  mx-auto px-2 py-3 rounded relative' id="setPemissionArea">
+  <!--
+    ID, 人名,
+   -->
+   <div  class="border rounded py-2">
+   <span class="border rounded  bg-slate-300 px-1 py-1 relative">
+   <span>員工編號(ID):</span>
+   <span id="setPemissionStaffId">Staff ID</span>
+   </span>
+   <span class="border rounded  bg-slate-300  ml-2 px-1 py-1 relative">
+    <span>員工名稱:</span>
+    <span id="setPemissionStaffName">張三</span>
+   </span><br /><br />
+   <span class="border rounded  border-blue-200   px-1 py-1 relative">
+    <label for="setPermissionPermissions">權限:</label>
+    <select id="setPermissionPermissions" onchange="permissionSelectChange()" class="rounded">
+        <option value ="1">系統管理</option>
+        <option value ="2">田區管理</option>
+     </select>
+  </span>&nbsp;&nbsp;
+  <span class="border rounded  border-blue-200 ml-2 px-1 py-1 relative">
+       <span>田區:</span>
+       <span id="setPermissionFields"  style="display:none">
+          <span><input type='checkbox'/></span>
+        </span>
+        <span style="color:red" id="setPermissionFieldsSystemAdmNote" >
+            設定系統管理權限時, 管理所有田區 
+        </span>
+  </span>
+  
+  <span class="ml-5">
+       <button class='bg-blue-500 text-white border rounded py-1 px-2.5 ' onclick="setPermission();" >設定權限
+        </button>
+        <button class='bg-gray-400  border rounded py-1 px-2.5' onclick="closeSetPermision();" >關閉
+        </button>
+  </span>
+  </div>
+  <!--等待-->
+  <div class="container mx-auto py-2"    id="setPermission_Watting" style="display:none">
+    <div class="bg-blue-100 border  text-2xl  border-blue-400 blue-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="spinner-border
+        animate-spin
+        inline-block
+        w-8
+        h-8
+        border-4
+        rounded-full
+        text-blue-500" role="status">
+          <span class="visually-hidden">Loading...</span>
+         
+        </span>
+        <span class="mt-3  text-blue-700">設定使用者權限，請稍候......</span>
+      </div>
+</div>
+  <!--OK-->
+  <div class="container mx-auto  py-2"    id="setPermission_OK"  style="display:none"  >
+    <div class="bg-blue-100 text-2xl border border-blue-400 blue-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="mt-3  text-blue-700">已經設定權限</span>
+      </div>
+  </div>
+
+  <!--Err-->
+   <div class="container mx-auto py-2 " id="setPermission_Err"    style="display:none" >
+        <div class="bg-red-100 text-2xl border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">無法設定權限:</strong><br/>
+            <div class="block sm:inline" id="setPermission_ErrText"></div>
+          </div>
+    </div>
+  
+</div>
+<!---->
+
+
+
+<!--#rgion 下載Staff-等待-->
+<div class="container   mx-auto px-2" id="downloadStaff_WaitingArea"  style="display:none"  >
+    <div class="bg-blue-100 border text-2xl border-blue-400 blue-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="spinner-border
+        animate-spin
+        inline-block
+        w-8
+        h-8
+        border-4
+        rounded-full
+        text-blue-500" role="status">
+          <span class="visually-hidden">Loading...</span>
+         
+        </span>
+        <span class="mt-3  text-blue-700">下載所有人員資料，請稍候......</span>
+      </div>
+</div>
+<!--#endregion-->
+
+<!--#region下載 Staff- 失敗-->
+<div class="container   mx-auto px-2" id="downloadStaff_FailedArea" style="display:none">
+
+    <div class="bg-red-100 border text-2xl border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <strong class="font-bold">無法取得人員及田區管理資料：</strong><br/>
+        <div class="block sm:inline" id="downloadStaff_ErrArea"></div>
+      </div>
+
+
+</div>
+<!--#endregion-->
+
+<!--#region 下載 Staff-成功 --->
+<div class="container   mx-auto px-2 py-3" id="downloadStaff_OKArea" style="display:none">
+    <table id="staffList" class="display" style="width:100%">
+        <thead>
+            <tr>
+               
+                <th>員工編號(Id)</th>
+                <th>員工名稱</th>
+                <th>狀態</th>
+                <th>狀態代碼</th>
+                <th>權限</th>
+                <th>權限代碼</th>
+                 <th>Email</th>
+                <th>Line Id</th>
+                <th>連絡電話</th>
+                <th>管理田區</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<!--#endregion-->
+
+<!--#region   重設密碼~ 等待中  -->
+<div class="container   mx-auto px-2" id="resetStaffpassword_WaitingArea"  style="display:none"  >
+    <div class="bg-blue-100 border text-2xl border-blue-400 blue-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="spinner-border
+        animate-spin
+        inline-block
+        w-8
+        h-8
+        border-4
+        rounded-full
+        text-blue-500" role="status">
+          <span class="visually-hidden">Loading...</span>
+         
+        </span>
+        <span class="mt-3  text-blue-700">重設指定用戶密碼，請稍候......</span>
+      </div>
+</div>
+<!--#endregion-->
+
+<!--#region   重設密碼~ 成功  -->
+<div class="container mx-auto  py-2"    id="resetStaffpassword_OKArea"  style="display:none"  >
+    <div class="bg-blue-100 text-2xl border border-blue-400 blue-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="mt-3  text-blue-700">已經重設指定用戶密碼</span>
+      </div>
+  </div>
+
+<!--#endregion   -->
+
+<!--#region  重設密碼~ 失敗-->
+<div class="container   mx-auto px-2" id="resetStaffpassword_ErrArea" style="display:none">
+
+    <div class="bg-red-100 border text-2xl border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <strong class="font-bold">無法重設用戶密碼：</strong><br/>
+        <div class="block sm:inline" id="resetStaffpassword_ErrTextArea"></div>
+      </div>
+
+
+</div>
+<!--#endregion-->
+<script src="assets/libs/simplebar/simplebar.min.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/pages/components.js"></script>
+   
+<script>
+$(function(){
+    var staff= horizontal.startUp();
+    zk1_UserManagement.startUp(staff);
+
+});
+</script>
+
+</body>
+
+</html>

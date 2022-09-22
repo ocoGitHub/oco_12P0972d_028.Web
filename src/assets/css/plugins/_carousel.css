@@ -1,0 +1,27 @@
+/* Carousel */
+.swiper-slide{
+  width: 100% !important;
+}
+.swiper-button-next, 
+.swiper-button-prev{
+  width: 32px;
+  height: 32px;
+  display: block;
+  border-radius: 50%;
+  @apply bg-slate-800 bg-opacity-[0.4];
+  @apply border-2 border-slate-500/[.35];
+}
+.swiper-button-next:after, 
+.swiper-button-prev:after{
+  font-size: 10px;
+  padding: 9px;
+  align-items: center;
+  display: block;
+  text-align: center;
+  color: theme('colors.slate.100');
+}
+
+.thumbsSwiper .swiper-slide {
+  width: 25% !important;
+  height: 100%;
+}

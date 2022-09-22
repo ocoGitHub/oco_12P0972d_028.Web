@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="">
+
+<head>
+    @@include("./partials/title-meta.html", {"title": "T-Wind"})
+
+    @@include('./partials/head-css.html')
+    <link rel="stylesheet" href="assets/libs/bootstrap/css/bootstrap.min.css">
+    <script src="assets/js/pages/register.js"></script>
+    @@include('./partials/bootstrap05Modal.html')
+</head>
+
+@@include('./partials/body.html')
+
+
+    <div class="relative flex flex-col justify-center min-h-screen overflow-hidden">
+        <div id="app" class="w-full  m-auto bg-white dark:bg-slate-800/60 rounded shadow-lg ring-2 ring-slate-300/50 dark:ring-slate-700/50 lg:max-w-md">
+            <div class="text-center p-6 bg-slate-900 rounded-t">
+                <a href="index.html"><img src="assets/images/logo-sm.png" alt="" class="w-14 h-14 mx-auto mb-2"></a>
+                <h3 class="font-semibold text-white text-xl mb-1">行政院農業委員會農業試驗所</h3>
+                <p class="text-xl text-slate-400">註冊新用戶</p>
+            </div>
+
+            <div class="p-6" >
+                <div class="mt-2">
+                    <label for="User_ID" class="label inputRequire" >員工編號(用戶Id)</label>
+                    <input type="text" id="User_ID" v-model="RequestParameter.StaffId" class="form-control dark:bg-slate-800/60 dark:border-slate-700/50" 
+                    placeholder="請輸入用戶姓名">
+                </div>
+                <div class="mt-2">
+                    <label for="User_Name" class="label inputRequire" >用戶姓名</label>
+                    <input type="text" id="User_Name" v-model="RequestParameter.StaffName" class="form-control dark:bg-slate-800/60 dark:border-slate-700/50" 
+                    placeholder="請輸入用戶姓名">
+                </div>
+                <div class="mt-2">
+                    <label for="email" class="label inputRequire">電子郵件信箱</label>
+                    <input type="email" id="email"  v-model="RequestParameter.Email"  class="form-control  dark:bg-slate-800/60 dark:border-slate-700/50" 
+                    placeholder="請輸入電子郵件信箱">
+                </div>
+                <div class="mt-2">
+                    <label for="password" class="label inputRequire">帳戶密碼(至少4個字元)</label>
+                    <input type="password" id="password" v-model="RequestParameter.Password" class="form-control  dark:bg-slate-800/60 dark:border-slate-700/50"
+                     placeholder="請輸入帳戶密碼">
+                </div>
+                <div class="mt-2">
+                    <label for="Confirm_Password" class="label inputRequire">密碼確認</label>
+                    <input type="password" id="Confirm_Password"  v-model="RequestParameter.ConfirmPassword" class="form-control  dark:bg-slate-800/60 dark:border-slate-700/50" 
+                    placeholder="請輸入與「帳戶密碼」相同的密碼">
+                </div>
+                <div class="mt-2">
+                    <label for="phoneNumber" class="label inputRequire">電話號碼</label>
+                    <input type="text" id="Phone_Number"  v-model="RequestParameter.PhoneNumber" class="form-control  dark:bg-slate-800/60 dark:border-slate-700/50" 
+                    placeholder="請輸入連絡電話號碼">
+                </div>
+                <div class="mt-2">
+                    <label for="lineId" class="label">Line Id</label>
+                    <input type="text" id="lineId"  v-model="RequestParameter.LineId" class="form-control  dark:bg-slate-800/60 dark:border-slate-700/50" 
+                    placeholder="請輸入Line Id">
+                </div>
+                <!--
+                <div class="block mt-4">
+                    <label class="custom-label">
+                        <div class="bg-white border dark:bg-slate-700 dark:border-slate-600 border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
+                          <input type="checkbox" class="hidden">
+                          <i class="fas fa-check hidden text-xs text-slate-700 dark:text-slate-300"></i>
+                        </div>
+                        <span class="text-sm text-slate-500 font-medium">By registering you agree to the T-Wind Terms of Use</span>
+                    </label>
+                </div>    --> 
+                <div class="mt-6">
+                    <button  @click="submit()"
+                        class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                        註冊
+                    </button>
+                </div>
+                <div class="mt-1">
+                    <button  @click="clear()"
+                    class="w-full px-4  py-2 tracking-wide text-white transition-colors duration-200 transform bg-gray-500 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">
+                      清除
+                </button>
+                </div>
+            </div>
+            <p class="mb-5 text-sm font-medium text-center text-slate-500"> 已經有帳戶 ?  <a href="#" @click="toLogin()"
+                class="font-medium text-blue-600 hover:underline">登入</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="assets/libs/simplebar/simplebar.min.js"></script>
+
+    <script>
+        $(function(){
+             register.startUp();
+        });
+       </script>
+    
+</body>
+
+</html>

@@ -1,0 +1,165 @@
+/* Calendar */
+
+.fc-event {
+  border-radius: 2px;
+  border: none;
+  cursor: move;
+  font-size: 13px;
+  margin: 5px;
+  padding: 7px 5px;
+  text-align: center;
+  @apply bg-blue-500 bg-opacity-[0.18]; 
+  color: theme('colors.blue.500');
+}
+
+.fc .fc-header-toolbar.fc-toolbar .fc-toolbar-chunk h2{
+  @apply font-medium dark:text-slate-300;
+  font-size: 16px;
+  text-transform: uppercase;  
+}
+
+.fc .fc-toolbar.fc-header-toolbar{
+  margin-bottom: theme('space.4');
+}
+
+.fc .fc-col-header-cell-cushion{
+  @apply dark:text-slate-300;
+  padding: 10px 0;
+}
+.fc .fc-daygrid-day-number{
+  @apply dark:text-slate-400;
+}
+.fc .fc-button{
+  @apply text-sm;
+}
+
+.fc .fc-button-primary{
+  @apply bg-blue-500 bg-opacity-[0.08] border border-solid border-blue-100 dark:border-slate-700;
+  color: theme('colors.blue.500');
+  text-transform: capitalize;
+  text-shadow: none;
+  box-shadow: none;
+}
+
+.fc .fc-button-primary:hover{
+  @apply border-white dark:border-slate-900;
+    background: theme('colors.blue.500');
+    color: theme('colors.white');
+}
+.fc .fc-button-primary.active,
+.fc .fc-button-primary.focus,
+.fc .fc-button-primary:active{
+  text-shadow: none;
+  box-shadow: none;
+}
+
+.fc .fc-button-primary:disabled {
+  @apply bg-blue-500 bg-opacity-[0.08] border-blue-100 dark:border-slate-700;
+  color: theme('colors.blue.500');
+  opacity: 1;
+}
+.fc .fc-button-primary:not(:disabled):active,
+.fc .fc-button-primary:not(:disabled).fc-button-active{
+  background: theme('colors.blue.500');
+  color: theme('colors.white');
+  border-color: theme('colors.white');
+}
+.fc .fc-button-primary:not(:disabled):active:focus,
+.fc .fc-button-primary:not(:disabled).fc-button-active:focus{
+  box-shadow: none;
+}
+.fc .fc-button-primary
+.fc .fc-button-primary
+
+.fc .fc-scrollgrid{
+  border-collapse: collapse;
+}
+
+.fc-license-message{
+  display: none;
+}
+
+.fc-theme-standard .fc-scrollgrid,
+.fc-theme-standard th,
+.fc-theme-standard td{
+  @apply border border-solid border-slate-200 dark:border-slate-700;
+  border: 1px solid theme('colors.slate.200');
+}
+
+
+.fc-day-other{
+  background-image: linear-gradient(-45deg, theme('colors.white') 25%, transparent 25%, transparent 50%, theme('colors.white') 50%, theme('colors.slate.100') 75%, transparent 75%, transparent);
+  background-size: 10px 10px;
+}
+.dark .fc-day-other{
+  background-image: linear-gradient(-45deg, theme('colors.slate.700') 25%, transparent 25%, transparent 50%, theme('colors.slate.800') 50%, theme('colors.slate.800') 75%, transparent 75%, transparent);
+  background-size: 10px 10px;
+}
+
+
+.fc-h-event .fc-event-main{
+  color: theme('colors.slate.400');
+}
+
+
+
+/* Lightpick */
+
+.litepicker{
+  box-shadow: none;
+  background-color: theme('colors.white');
+  border: 1px solid theme('colors.slate.300');
+  z-index: 99;
+  width: 100%;
+  @apply text-sm;
+}
+.litepicker .container__main{
+  width: 100%;
+}
+.litepicker .container__main .month-item{
+  width: 100%;
+}
+.litepicker .container__months{
+    width: 100%;
+    box-shadow: none;
+    background-color: theme('colors.white');
+}
+.litepicker .container__months .month-item-weekdays-row > div{
+  font-size: 12px;
+  font-weight: 500;
+  color: theme('colors.slate.100');
+}
+.litepicker .container__months .month-item-header div > .month-item-name,
+.litepicker .container__months .month-item-header div > .month-item-year{
+  color: theme('colors.slate.100');
+}
+.litepicker .container__days  > div,
+.litepicker .container__days  > a{
+  width: calc(100% / 7);
+  padding: 12px 0;
+}
+
+
+.litepicker .container__days .day-item{
+  @apply text-slate-600 dark:text-slate-300;
+  font-size: 12px;
+  transition: none;
+}
+.litepicker .container__days.is-today{
+  @apply bg-blue-500 bg-opacity-[0.08];
+  color: theme('colors.blue.500');
+}
+.litepicker .container__days:hover{
+  box-shadow: none;
+  @apply bg-blue-500 bg-opacity-[0.08];
+  color: theme('colors.blue.500');
+}
+
+.fc-theme-standard,
+ th {
+  @apply font-medium;
+}
+.fc-daygrid-block-event .fc-event-title{
+  color: theme('colors.blue.500');
+  font-weight: 500;
+}

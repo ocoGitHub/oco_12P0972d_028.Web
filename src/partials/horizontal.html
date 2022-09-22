@@ -1,0 +1,262 @@
+<div id="horizontalApp">
+<nav class="border-gray-200 bg-gray-900 px-2.5 py-2.5 shadow-sm dark:bg-slate-800 sm:px-4 block print:hidden">
+  <div class="container mx-0 flex max-w-full flex-wrap items-center lg:mx-auto">
+    <div class="flex items-center">
+      <a href="index.html" class="flex items-center outline-none">
+        <img src="https://www.oco.com.tw/wp-content/uploads/2021/11/icon-orange-90px-min.png" alt="" class="h-6" />
+        <!-- <img src="https://www.oco.com.tw/wp-content/uploads/2021/11/icon-orange-90px-min.png" alt="" class="ml-2 hidden xl:block mt-1" /> -->
+      </a>
+    </div>
+
+    <div class="order-2 hidden w-full items-center justify-between md:order-1 md:ml-5 md:flex md:w-auto"
+      id="mobile-menu-2">
+      <ul
+        class="font-body mt-4 flex flex-col font-medium md:mt-0 md:flex-row md:text-sm md:font-medium space-x-0 md:space-x-4 lg:space-x-6 xl:space-x-8 navbar">
+        <li class="dropdown">
+          <button id="navDashboardLink" data-dropdown-toggle="navDashboard"
+            class="dropdown-toggle flex w-full items-center border-b border-gray-800 py-2 px-3 font-medium md:border-0 md:p-0">
+            <i class="ti ti-smart-home mr-1 pb-1 text-lg"></i> 儀錶板
+            <i class="ti ti-chevron-down ml-auto lg:ml-1"></i>
+          </button>
+          <!-- Dropdown menu -->
+          <div id="navDashboard"
+            class="dropdown-menu z-10 my-1 hidden w-full list-none divide-y divide-gray-100 rounded bg-gray-800 md:bg-white text-base shadow border border-slate-700 md:border-white dark:border-slate-700/50 dark:divide-gray-600 dark:bg-gray-900 md:w-44 dropdown-menu">
+            <ul class="py-1">
+              <li>
+                <a href="index.html" class="nav-link  dark:hover:bg-slate-800/70">資訊總覽</a>
+              </li>
+              <span id="fieldAdmList">
+               
+              </span>
+
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="order-1  ml-auto flex items-center md:order-2">
+      <div class="mr-2 lg:mr-4">
+        <button id="toggle-theme" class="flex rounded-full md:mr-0 relative">
+          <i class="ti ti-sun top-icon"></i>
+        </button>
+      </div>
+      <div  class="mr-2 hidden lg:mr-4 dropdown relative">
+        <button  type="button" class="dropdown-toggle flex rounded-full md:mr-0" id="Notifications" aria-expanded="false"
+          data-dropdown-toggle="navNotifications">
+          <i class="ti ti-bell text-2xl text-gray-400" id="showAlarm"></i>
+        </button>
+
+        <div
+          class="dropdown-menu dropdown-menu-right z-50 my-1 hidden  w-64 list-none divide-y h-52 divide-gray-100 rounded border-slate-700 md:border-white text-base shadow dark:divide-gray-600 bg-white dark:bg-slate-800"
+          id="navNotifications" data-simplebar>
+          <ul class="py-1" aria-labelledby="navNotifications" id="alarmHistories">
+                    </ul>
+        </div>
+      </div>
+      <div class="mr-2 lg:mr-0 dropdown relative">
+        <button type="button"
+          class="dropdown-toggle flex items-center rounded-full text-sm focus:bg-none focus:ring-0 dark:focus:ring-0 md:mr-0"
+          id="user-profile" aria-expanded="false" data-dropdown-toggle="navUserdata">
+          <img class="h-8 w-8 rounded-full" src="assets/images/users/avatar-1.jpg" alt="user photo" />
+          <span class="ml-2 hidden text-left xl:block">
+            <span class="block font-medium text-gray-400" id="staffPermission">管理者</span>
+            <!--<span class="-mt-1 block text-sm font-medium text-gray-500">Admin</span>-->
+          </span>
+        </button>
+        
+        <div
+          class="dropdown-menu dropdown-menu-right z-50 my-1 hidden list-none divide-y divide-gray-100 rounded border-slate-700 md:border-white text-base shadow dark:divide-gray-600 bg-white dark:bg-slate-800"
+          id="navUserdata">
+          <div class="py-3 px-4" >
+            <span class="block text-sm font-medium text-gray-900 dark:text-white" id="staffName"></span>
+            <span class="block truncate text-sm font-normal text-gray-500 dark:text-gray-400" id="staffEmail"></span>
+          </div>
+          <ul class="py-1" aria-labelledby="navUserdata">
+            <li id="staffAdmin">
+              <a href="zk1_UserManagement.html"
+                class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-900/20 dark:hover:text-white">用戶管理</a>
+            </li>
+            <li>
+              <a href="updatePassword.html"
+                class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-900/20 dark:hover:text-white">變更密碼</a>
+            </li>
+            <li>
+              <a href="staffLogin.html"
+                class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-900/20 dark:hover:text-white">登出系統</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <button data-collapse-toggle="mobile-menu-2" type="button" id="toggle-menu"
+        class="ml-1 inline-flex items-center rounded-lg text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-0 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden"
+        aria-controls="mobile-menu-2" aria-expanded="false">
+        <span class="sr-only">Open main menu</span>
+        <i class="ti ti-menu-2 h-6 w-6 text-lg leading-6"></i>
+        <i class="ti ti-X hidden h-6 w-6 text-lg leading-6"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+</div>
+<script>
+  var horizontal={
+      staff:null,
+      alarmHistoryJson:'',   
+      
+      displayAlarmHistory:function(alrmHistory){
+        var alarmId='alarmHistories'; // 顯示警報摘要的 ID
+        var ele=document.getElementById(alarmId);
+        var showAlarmId='showAlarm';
+        var json=JSON.stringify(alrmHistory);
+     
+        if(json==horizontal.alarmHistoryJson){return;}
+        var length=alrmHistory.length;
+        var allHtml='';
+        for(var i=0;i<length;i++){
+            var alarm=alrmHistory[i];
+            var html=`
+            <li class="py-2 px-4">
+            <a href="javascript:void(0);" class="dropdown-item">
+              <div class="flex align-items-start">
+                <img class="object-cover rounded-full h-8 w-8 shrink-0 mr-3" src="assets/images/users/avatar-2.jpg"
+                  alt="logo" />
+                <div class="flex-grow ml-0.5 overflow-hidden">
+                  <p class="text-gray-500 mb-0 text-xs  truncate dark:text-gray-400">`
+                   +alarm.AlarmTime+  
+                  `</p>
+                  <p class="text-sm font-medium text-gray-800 truncate dark:text-gray-300">`+alarm.Description +`</p>
+                 <!-- <p class="text-gray-500 mb-0 text-xs  truncate dark:text-gray-400">
+                    田區２０號
+                  </p>-->
+                </div>
+              </div>
+            </a>
+          </li>
+            `;  
+            allHtml+=html;
+        }
+        ele.innerHTML=allHtml;
+       
+        horizontal.alarmHistoryJson=json;
+        console.log("hidden:"+ $("#navNotifications").hasClass('hidden') + ele.innerHTML) 
+        if($("#navNotifications").hasClass('hidden')){
+          $("#navNotifications").removeClass('hidden')
+        }
+
+        
+       
+       
+    },
+
+      setSaff:function(){
+          try{
+            var staff= setting_Staff.getStaff();
+            if(staff==null|| staff==undefined){
+              setting.toLoginPage();
+            }
+            else{
+               horizontal.staff=staff;
+            }
+          }
+          catch(ex){
+            setting.toLoginPage();
+          }
+      },
+      startUp:function(){
+         
+         horizontal.setSaff();
+         //horizontalVue3.startUp();
+         horizontal.initialSatffInformation();
+         horizontal.initialDashBoard();
+         return horizontal.staff; 
+      },
+
+
+      /**
+       * @method initialSatffInformation 初始化 人員資訊
+       */  
+      initialSatffInformation:function(){
+         // 系統管理員代碼  
+         var systemAdmCode=setting_Staff.permissionCode.systemAdministration;
+         // 人員資料
+         var staff=horizontal.staff;
+
+         //#region  設定 Staff Name 
+         var  staffNameId="staffName"; 
+         document.getElementById(staffNameId).innerText=staff.Name;
+         //#endregion
+
+         //#region Email
+         var  staffEmailId="staffEmail"; 
+         document.getElementById(staffEmailId).innerText=staff.Email
+         //#endregion
+
+         //#region Permission
+         var staffPermissionId="staffPermission";
+         document.getElementById(staffPermissionId).innerText=staff.PermissionText
+         //#endregion
+
+         //#region  顯示用戶管理
+         var staffAdminId = "staffAdmin";
+         var domEle=document.getElementById(staffAdminId);
+         if(staff.PermissionCode==systemAdmCode){ 
+             // 具系統管理權限
+             domEle.style.display='';
+         }
+         else{
+             // 不具系管理權限
+             domEle.style.display='none';
+         }
+         //#endregion
+
+      },
+
+      /**
+       * @method initialDashBoard 初始化儀錶板
+       */ 
+      initialDashBoard:function(){
+           var dashBoardItemId='fieldAdmList';
+           var itemsContainer=document.getElementById(dashBoardItemId);
+           var staff=horizontal.staff;
+           var fields=staff.FieldsAdmList;
+           var length=fields.length;
+           var contentHtml=``;
+           for(var i=0;i<length;i++){
+                if(fields[i].FieldId==setting.nothingFieldId){continue;}
+                 var html=`
+                 <li>
+                   <a href="`+ setting.fieldAdminPage +`?id=` + fields[i].FieldId  +   `" class="nav-link  dark:hover:bg-slate-800/70">`+fields[i].FieldName +`管理</a>
+                 </li>
+                 `;
+                 contentHtml+=html;
+           }
+           itemsContainer.innerHTML=contentHtml;
+      },
+
+     
+      
+  };
+
+ /** 
+ var  horizontalVue3={
+  option:{},
+  optionData:{},   
+  startUp:function(){
+        var app=Vue.createApp(horizontalVue3);
+        horizontalVue3.option =app.mount('#horizontalApp');
+        horizontalVue3.optionData= horizontalVue3.option.$data;
+
+     }, 
+
+    data(){
+
+        return{
+          staffName:'',
+          staffEmail:'',
+          permissionText:'',
+          permmissionCode:0
+        }
+      },
+  };*/
+</script>
