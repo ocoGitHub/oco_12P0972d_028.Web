@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="">
+
+<head>
+    @@include("./partials/title-meta.html", {"title": "T-Wind"})
+
+    <link rel="stylesheet" href="assets/libs/jsvectormap/css/jsvectormap.min.css">
+
+    @@include('./partials/head-css.html')
+
+    <script src="assets/js/pages/updateStaffData.js"></script>
+
+
+
+</head>
+
+@@include('./partials/body.html')
+
+<!-- leftbar-tab-menu -->
+@@include('./partials/horizontal.html')
+
+<div class="container  mx-auto px-2">
+    <div class="flex flex-wrap">
+        <div class="flex items-center w-full">
+            <div class="w-full">
+                <div class="">
+                    <div class="flex flex-wrap justify-between">
+                        <div class="items-center ">
+                            <h1 class="font-semibold text-xl mb-0 block dark:text-slate-100">行政院農業委員會農業試驗所</h1>
+                            <ol class="list-reset flex text-sm">
+                                <li class="text-gray-500">田區智慧配水控制系統</li>
+                                <li><span class="text-gray-500 mx-2">/</span></li>
+                                <li class="text-blue-600 hover:text-blue-700" id="subTitle">用戶變更基本資料</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end container-->
+
+<div class="relative flex flex-col justify-center overflow-hidden">
+    <div id="app"
+        class="w-full  m-auto bg-white dark:bg-slate-800/60 mt-20  rounded shadow-lg ring-2 ring-slate-300/50 dark:ring-slate-700/50 lg:max-w-md">
+        <div class="text-center p-6 bg-slate-900 rounded-t">
+            <a href="index.html"><img src="assets/images/logo-sm.png" alt="" class="w-14 h-14 mx-auto mb-2"></a>
+            <h3 class="font-semibold text-white text-xl mb-1">行政院農業委員會農業試驗所</h3>
+            <p class="text-xl text-slate-400">用戶變更基本資料</p>
+        </div>
+
+        <div class="p-6">
+            <div class="mt-2">
+                <label for="stafffId" class="label inputRequire">員工編號(用戶Id)</label>
+                <input type="text" id="stafffId" v-model="RequestParameter.StaffId"
+                    class="form-control text-gray-400"  disabled />
+            </div>
+            <div class="mt-2">
+                <label for="staffName" class="label inputRequire">用戶姓名</label>
+                <input type="text" id="staffName" v-model="RequestParameter.StaffName"
+                    class="form-control dark:bg-slate-800/60 dark:border-slate-700/50" placeholder="請輸入用戶姓名">
+            </div>
+            <div class="mt-2">
+                <label for="Email" class="label inputRequire">電子郵件信箱</label>
+                <input type="text" id="Email" v-model="RequestParameter.Email"
+                    class="form-control dark:bg-slate-800/60 dark:border-slate-700/50" placeholder="請輸入電子郵件信箱 ">
+            </div>
+            <div class="mt-2">
+                <label for="PhoneNumber" class="label inputRequire">電話號碼</label>
+                <input type="text" id="PhoneNumber" v-model="RequestParameter.PhoneNumber"
+                    class="form-control  dark:bg-slate-800/60 dark:border-slate-700/50" placeholder="請輸入連絡電話號碼">
+            </div>
+            <div class="mt-2">
+                <label for="LineId" class="label">Line Id</label>
+                <input type="text" id="LineId" v-model="RequestParameter.LineId"
+                    class="form-control  dark:bg-slate-800/60 dark:border-slate-700/50" placeholder="請輸入Line Id">
+            </div>
+            <div class="mt-6">
+                <button @click="updateStaffDataSubmit()"
+                    class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                    變更資料
+                </button>
+            </div>
+            <div class="mt-1">
+                <button @click="reset()"
+                    class="w-full px-4  py-2 tracking-wide text-white transition-colors duration-200 transform bg-gray-500 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">
+                    重設
+                </button>
+            </div>
+        </div>
+        <!--
+        <p class="mb-5 text-sm font-medium text-center text-slate-500"> 已經有帳戶 ? <a href="#" @click="toLogin()"
+                class="font-medium text-blue-600 hover:underline">登入</a>
+        </p>
+       -->
+    </div>
+
+
+    <!--#region   變更資料~ 等待中  -->
+    <div class="container   mx-auto px-2" id="updateStaffData_WaitingArea" style="display:none">
+        <div class="bg-blue-100 border text-2xl border-blue-400 blue-red-700 px-4 py-3 rounded relative" role="alert">
+            <span class="spinner-border
+        animate-spin
+        inline-block
+        w-8
+        h-8
+        border-4
+        rounded-full
+        text-blue-500" role="status">
+                <span class="visually-hidden">Loading...</span>
+
+            </span>
+            <span class="mt-3  text-blue-700">變更您的基本資料，請稍候......</span>
+        </div>
+    </div>
+    <!--#endregion-->
+
+    <!--#region    變更密碼~ 成功  -->
+    <div class="container mx-auto  py-2" id="updateStaffData_OKArea" style="display:none">
+        <div class="bg-blue-100 text-2xl border border-blue-400 blue-red-700 px-4 py-3 rounded relative" role="alert">
+            <span class="mt-3  text-blue-700">已經變更您的資料, 請重新登入</span>
+        </div>
+    </div>
+
+    <!--#endregion   -->
+
+    <!--#region   變更密碼~ 失敗-->
+    <div class="container   mx-auto px-2" id="updateStaffData_ErrArea" style="display:none">
+
+        <div class="bg-red-100 border text-2xl border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">無法變更基本資料：</strong><br />
+            <div class="block sm:inline" id="upsateStaffData_ErrTextArea"></div>
+        </div>
+
+
+    </div>
+    <!--#endregion-->
+
+
+</div>
+<!--end container-->
+
+<script src="assets/libs/simplebar/simplebar.min.js"></script>
+<script src="assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+<script src="assets/libs/jsvectormap/maps/world.js"></script>
+<script src="assets/libs/apexcharts/apexcharts.min.js"></script>
+<script src="assets/libs/echarts/echarts.min.js"></script>
+<script src="assets/js/pages/ecommerce-index.init.js"></script>
+<script src="assets/libs/chart.js/chart.min.js"></script>
+<script src="assets/js/pages/chartjs.init.js"></script>
+<script src="assets/libs/simple-datatables/umd/simple-datatables.js"></script>
+<script src="assets/js/pages/datatable.init.js"></script>
+<script src="assets/js/app.js"></script>
+
+<script>
+    $(function () {
+
+
+        var staff = horizontal.startUp();
+        updateStaffData.startUp(staff);
+    });
+     
+
+</script>
+</body>
+
+</html>

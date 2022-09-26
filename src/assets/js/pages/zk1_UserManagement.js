@@ -1,5 +1,7 @@
 //const { makeMap } = require("@vue/shared");
 
+//const { createFunctionExpression } = require("@vue/compiler-core");
+
 document.write('<script src="assets/libs/jquery/jquery.min.js"></script>')
 //document.write('<script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>');
 document.write('<script src="assets/libs/vue/vue.global.js"></script>');
@@ -17,6 +19,24 @@ function setPermission() {
 function closeSetPermision() {
   zk1_UserManagement.setStaffPermission.closeSetPermissionArea();
 };
+
+function closeDeleteStaff() {
+  zk1_UserManagement.deleteStaff.hideAllAreas();
+  document.getElementById(zk1_UserManagement.getStaff.okAreaId).style.display = '';
+};
+
+function openDeleteStaffConfirm() {
+  closeSetPermision();
+  document.getElementById(zk1_UserManagement.getStaff.okAreaId).style.display = 'none';
+
+  zk1_UserManagement.deleteStaff.displayConfirmArea();
+}
+
+function toDeleteStaff() {
+  zk1_UserManagement.deleteStaff.delete();
+
+}
+
 
 var zk1_UserManagement = {
 
@@ -340,14 +360,17 @@ var zk1_UserManagement = {
         dataTableNoAjax.data[i].UsingStateTextStyle = '';
 
         // 操作按鈕
-        dataTableNoAjax.data[i].Option = `
-                <button class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline  font-bold  text-white rounded"
+        dataTableNoAjax.data[i].Option = `<div id="` +dataTableNoAjax.data[i].StaffId+ `_opr">
+        <button class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline bg-red-500 font-bold  text-white rounded"
+                onclick='zk1_UserManagement.deleteStaff.confirmDelete("`+ dataTableNoAjax.data[i].StaffId + `","` + dataTableNoAjax.data[i].StaffName + `")' style='background:red' >刪除</button>
+        
+        <button class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline  font-bold  text-white rounded"
                 onclick='zk1_UserManagement_resetStaffPassword.execute("`+ dataTableNoAjax.data[i].StaffId + `")' style='background:orange' >重設密碼</button>
-                ` +
+                                ` +
 
 
           `<!--權限-->    
-                <button class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline bg-blue-500 font-bold  text-white rounded"
+                <br/><button class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline bg-blue-500 font-bold  text-white rounded"
                 onclick='zk1_UserManagement.setStaffPermission.preWork("`+ dataTableNoAjax.data[i].StaffId + `")' id="` + idEdit + `" style='background:blue' >權限</button>
                 `;
         //#region 啟用/停用帳戶
@@ -368,6 +391,7 @@ var zk1_UserManagement = {
                           `;
 
         }
+        dataTableNoAjax.data[i].Option+=`</div>`
         //#endregion 啟用/停用帳戶
         var idStatusText = zk1_UserManagement.getStaff.setStateIdPrefix + dataTableNoAjax.data[i].StaffId;
 
@@ -423,8 +447,146 @@ var zk1_UserManagement = {
 
   },
 
+  deleteStaff: {
+    confirmAreaId: 'deleteStaff_confirmArea',
+    waitingAreaId: 'deleteStaff_waitingArea',
+    okAreaId: 'deleteStaff_OkArea',
+    errAreaId: 'deleteStaff_FailedArea',
+    errTextId: 'deleteStaff_FailedTextArea',
+    confirmTargetStaffDataAreaId: 'deleteStaff_ConfirmStaff',
+    staffId: '',
+    staffName: '',
+    hideAllAreas: function () {
+      this.hideConfirmArea();
+      this.hideWaitingArea();
+      this.hideOkArea();
+      this.hideErrArea();
+    },
+
+    hideConfirmArea: function () {
+      document.getElementById(this.confirmAreaId).style.display = 'none';
+    },
+    displayConfirmArea: function () {
+      zk1_UserManagement.deleteStaff.hideAllAreas();
+      document.getElementById(this.confirmAreaId).style.display = '';
+    },
+
+    hideWaitingArea: function () {
+      document.getElementById(this.waitingAreaId).style.display = 'none';
+    },
+    displayWaitingArea: function () {
+      zk1_UserManagement.deleteStaff.hideAllAreas();
+      document.getElementById(this.waitingAreaId).style.display = '';
+    },
+
+    hideOkArea: function () {
+      document.getElementById(this.okAreaId).style.display = 'none';
+    },
+    displayOkArea: function () {
+      zk1_UserManagement.deleteStaff.hideAllAreas();
+      document.getElementById(this.okAreaId).style.display = '';
+    },
+
+    hideErrArea: function () {
+      document.getElementById(this.errAreaId).style.display = 'none';
+    },
+    displayErrArea: function (errText) {
+      zk1_UserManagement.deleteStaff.hideAllAreas();
+      document.getElementById(zk1_UserManagement.deleteStaff.errTextId).innerText = errText;
+      document.getElementById(this.errAreaId).style.display = '';
+    },
+
+
+
+
+    // 去刪除
+    delete: function () {
+
+      var requestParameters = {
+        TargetStaffId: this.staffId,
+        StaffToken: zk1_UserManagement.staff.Token
+      };
+
+      // console.log(JSON.stringify(requestParameters));
+      zk1_UserManagement_deleteStaff.execute(requestParameters);
+    },
+
+    /**
+     * @method confirmDelete 刪除前的確認
+     * @param {*} staffId 
+     */
+    confirmDelete: function (staffId, staffName) {
+      zk1_UserManagement.deleteStaff.staffId = staffId;
+      zk1_UserManagement.deleteStaff.staffName = staffName;
+      document.getElementById(this.confirmTargetStaffDataAreaId).innerText = staffName + "(Id: " + staffId + ")";
+      // 開啟確認畫面
+      openDeleteStaffConfirm();
+    },
+  }
+
 };
 
+var zk1_UserManagement_deleteStaff = {
+  apiResourceName: 'Staff/DeleteStaffByStaffId',
+  execute: function (requestParameters) {
+    //window.alert(JSON.stringify(requestParameters));
+    webApi.send(
+      webApi.methods.post,
+      zk1_UserManagement_deleteStaff.apiResourceName,
+      requestParameters,// 没有Request 參數
+      zk1_UserManagement_deleteStaff.beforeSendCallback,
+      zk1_UserManagement_deleteStaff.okCallback,
+      zk1_UserManagement_deleteStaff.failedCallback,
+      zk1_UserManagement_deleteStaff.completeCallback,
+    );
+
+  },
+  beforeSendCallback: function () {
+    zk1_UserManagement.deleteStaff.displayWaitingArea();
+  },
+  okCallback: function (result, resultText, status) {
+    var realOk = webApi.isApiResultOK(result.ReturnCode);
+    if (realOk) {
+      // zk1_UserManagement_resetStaffPassword.displayOkArea();
+      zk1_UserManagement.deleteStaff.displayOkArea();
+      document.getElementById(zk1_UserManagement.deleteStaff.staffId+ "_opr").innerHTML='<span class="text-red-500">已經刪除</span>';
+      setTimeout(
+        function () {
+          zk1_UserManagement.deleteStaff.hideAllAreas();
+          zk1_UserManagement.getStaff.displayOkArea()
+        }, setting.interval
+      );
+    }
+    else {
+      // zk1_UserManagement_resetStaffPassword.displayErrArea(result.ReturnMessage + "(" + result.ReturnCode + ")");
+      zk1_UserManagement.deleteStaff.displayErrArea(result.ReturnMessage + "(" + result.ReturnCode + ")");
+      setTimeout(
+        function () {
+          zk1_UserManagement.deleteStaff.hideAllAreas();
+          zk1_UserManagement.getStaff.displayOkArea()
+        }, setting.interval
+      );
+    }
+  },
+  failedCallback: function (err) {
+    zk1_UserManagement.deleteStaff.displayErrArea(err.statusText + "(" + err.status + ")");
+    setTimeout(
+      function () {
+        zk1_UserManagement.deleteStaff.hideAllAreas();
+        zk1_UserManagement.getStaff.displayOkArea()
+      }, setting.interval
+    );
+  },
+  completeCallback: function () {
+
+  }
+};
+
+
+
+/**
+ * @class zk1_UserManagement_setStaffPermission 設定權限
+ */
 var zk1_UserManagement_setStaffPermission = {
   apiResourceName: 'Staff/SetStaffPermission',
   execute: function (requestParameters) {
@@ -650,6 +812,9 @@ var zk1_UserManagement_GetStaff = {
 
 };
 
+/**
+ * @class zk1_UserManagement_resetStaffPassword 重設密碼
+ */
 var zk1_UserManagement_resetStaffPassword = {
   apiResourceName: 'Staff/ResetStaffPassword',
 
@@ -675,21 +840,21 @@ var zk1_UserManagement_resetStaffPassword = {
     zk1_UserManagement_resetStaffPassword.displayStaffList();
   },
 
-  displayErrArea:function(text){
-     zk1_UserManagement_resetStaffPassword.hideAllAreas();
-     document.getElementById(zk1_UserManagement_resetStaffPassword.errAreaId).style.display = '';
-     document.getElementById(zk1_UserManagement_resetStaffPassword.errAreaTextId).innerText = text;
-     zk1_UserManagement_resetStaffPassword.displayStaffList();
+  displayErrArea: function (text) {
+    zk1_UserManagement_resetStaffPassword.hideAllAreas();
+    document.getElementById(zk1_UserManagement_resetStaffPassword.errAreaId).style.display = '';
+    document.getElementById(zk1_UserManagement_resetStaffPassword.errAreaTextId).innerText = text;
+    zk1_UserManagement_resetStaffPassword.displayStaffList();
   },
-  
-  displayStaffList:function(){
-     setTimeout(
-        function(){
-          zk1_UserManagement_resetStaffPassword.hideAllAreas();
-          document.getElementById(zk1_UserManagement_resetStaffPassword.staffListAreaId).style.display = '';
-        },
-        setting.interval
-     );
+
+  displayStaffList: function () {
+    setTimeout(
+      function () {
+        zk1_UserManagement_resetStaffPassword.hideAllAreas();
+        document.getElementById(zk1_UserManagement_resetStaffPassword.staffListAreaId).style.display = '';
+      },
+      setting.interval
+    );
 
   },
 
