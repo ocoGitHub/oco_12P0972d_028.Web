@@ -46,6 +46,12 @@ var systemInfo = {
     ],
     masterInfo: [
         {
+            deployTime: '2022/09/27 01:30:00',
+            version: 'MAS.01.00.00.003',
+            webApiUrl: '',
+            signalRUrl: ''
+        },
+        {
             deployTime: '2022/09/21 17:00:00',
             version: 'MAS.01.00.00.002',
             webApiUrl: '',
