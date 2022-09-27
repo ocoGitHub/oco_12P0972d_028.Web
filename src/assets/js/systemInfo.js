@@ -20,6 +20,12 @@ var systemInfo = {
 
     developInfo: [
         {
+            deployTime: '2022/09/27 10:00:00',
+            version: 'DEV.01.00.00.003X',
+            webApiUrl: '',
+            signalRUrl: ''
+        },
+        {
             deployTime: '2022/09/27 01:00:00',
             version: 'DEV.01.00.00.003',
             webApiUrl: '',
