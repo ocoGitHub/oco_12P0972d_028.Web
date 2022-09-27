@@ -2,7 +2,7 @@ var systemInfo = {
     taskInfo: [
         {
             deployTime: '2022/09/15 12:00:00',
-            version: 'DEB.01.00.00.001X',
+            version: 'DEV.01.00.00.001?',
             webApiUrl: '',
             signalRurl: ''
 
