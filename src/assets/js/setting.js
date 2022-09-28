@@ -276,6 +276,11 @@ var setting_Staff = {
      * @property MoistureMeter 溼度計
      */
     MoistureMeter: 1,
+
+    /**
+     * @property DefinedMoistureMeter 自定義溼度計
+     */
+    DefinedMoistureMeter:11,
     /**
      * @property WaterFlowMeter 水流計
      */
@@ -284,6 +289,11 @@ var setting_Staff = {
      * @property WaterLevelGauge 水位計
      */
     WaterLevelGauge: 3,
+    /**
+     * @property DefinedWaterLevelGauge 自定義水位計
+     */
+     DefinedWaterLevelGauge: 31,
+    
     /**
      * @proprty ElectricWaterGate 公共電動進水擋水閘門, 田區進水閘門
      */
@@ -298,7 +308,9 @@ var setting_Staff = {
     WaterFlowMeterName: 'waterFlowMeterName',
     WaterLevelGaugeName: 'waterLevelGauge',
     ElectricWaterGateName: 'electricWaterGate',
-    ElectricBlockWaterGateName: 'electricBlockWaterGate'
+    ElectricBlockWaterGateName: 'electricBlockWaterGate',
+    DefinedMoistureMeterName:'definedMoistureMeter',
+    DefinedWaterLevelGaugeName:'definedWaterLevelGauge',
   },
   /**
    * @method saveStaffJson 將用戶資料(JSON)存入 Storage

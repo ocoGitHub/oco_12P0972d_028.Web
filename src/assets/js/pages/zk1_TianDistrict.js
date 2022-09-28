@@ -311,7 +311,7 @@ var zk1_TianDistric = {
      * @param {*} mainGate 
      * @param {*} alarmHistories 
      */
-    getTagDataOk: function (rtnData, mainGate, alarmHistories) {
+    getTagDataOk: function (rtnData, mainGate, alarmHistories, defindTagwayRelation) {
 
         var tagLists = Enumerable.From(rtnData).Where(m => m.FieldId == zk1_TianDistric.fieldId).ToArray();
         // 田區資訊
@@ -319,9 +319,9 @@ var zk1_TianDistric = {
         // 即時流量資訊
         zk1_TianDistric.setRealTimeWaterFlowInformation(tagLists);
         // 土壤資訊設備清單(溼度)
-        zk1_TianDistric.setEarthMoistureInformationEquipmentList(tagLists);
+        zk1_TianDistric.setEarthMoistureInformationEquipmentList(tagLists, defindTagwayRelation);
         // 水位資訊設備清單
-        zk1_TianDistric.setWaterLevelInformationEquipmentList(tagLists);
+        zk1_TianDistric.setWaterLevelInformationEquipmentList(tagLists, defindTagwayRelation);
         // 電動水閘門
         tagLists = Enumerable.From(rtnData).Where(m => m.FieldId == zk1_TianDistric.fieldId).ToArray();
         zk1_TianDistric.setElectricWaterGate(tagLists, mainGate);
@@ -562,7 +562,7 @@ var zk1_TianDistric = {
                 var realTimeData = Enumerable.From(zk1_TianDistric.realTimeTagDataFromSignalR).
                     Where(
                         m => m.TagName == tag.TagName//.replace('--','@@') // replace 可以拿掉
-                        ).ToArray();
+                    ).ToArray();
                 if (realTimeData.length == 0) { continue; }
                 if (tag.TagName.split('--')[1] == 1) {// 狀態
                     text = setting_Staff.waterGateState.getText(realTimeData[0].Value);
@@ -572,7 +572,7 @@ var zk1_TianDistric = {
 
                 }
                 ele.innerText = text;
-                setting_Style.changeTailWindClassNamesByValue(id, realTimeData[0].Value-1);
+                setting_Style.changeTailWindClassNamesByValue(id, realTimeData[0].Value - 1);
             }
         }
 
@@ -587,7 +587,7 @@ var zk1_TianDistric = {
                     var realTimeData = Enumerable.From(zk1_TianDistric.realTimeTagDataFromSignalR).
                         Where(
                             m => m.TagName == tag.TagName//.replace('--','@@')
-                            ).ToArray();
+                        ).ToArray();
                     if (realTimeData.length == 0) { continue; }
                     var value = tag.RealValue;
                     var text = "";
@@ -599,7 +599,7 @@ var zk1_TianDistric = {
 
                     }
                     ele.innerText = text;
-                    setting_Style.changeTailWindClassNamesByValue(id, realTimeData[0].Value-1);
+                    setting_Style.changeTailWindClassNamesByValue(id, realTimeData[0].Value - 1);
                 }
             }
             //#region 設定水位低限
@@ -956,27 +956,69 @@ var zk1_TianDistric = {
      * @method setEarthMoistureInformationEquipmentList 取得溼度資料後顯示之 
      * @param {*} informations 
      */
-    setEarthMoistureInformationEquipmentList: function (informations) {
+    setEarthMoistureInformationEquipmentList: function (informations, defindTagwayRelation) {
         var tagList = Enumerable.From(informations).
             Where(m => m.TagWay == setting_Staff.tagWayCode.MoistureMeter).
             OrderBy(m => m.FieldId).
             ThenBy(m => m.TagName).
             ToArray();
         var tagLegth = tagList.length;
+
+        var fieldId = zk1_TianDistric.fieldId;
+
+        // 土壤溼度計代碼
+        var definedMoistureMeterCode = setting_Staff.tagWayCode.DefinedMoistureMeter;
+
+        var defineTags = Enumerable.From(zk1_TianDistric.staff.DefinedTagWayTagListUnitList).
+            Where(x => x.TagWayCode == definedMoistureMeterCode).
+            OrderBy(x => x.TagName).ToArray();
+
+        var defineLength = defineTags.length;
+
+
         for (var i = 0; i < tagLegth; i++) {
             var tag = tagList[i];
             var id = tag.TagName + "_" + setting_Staff.tagWayCode.MoistureMeterName;
+
             var ele = document.getElementById(id);
             if (ele != null) {
                 var realTimeData = Enumerable.From(zk1_TianDistric.realTimeTagDataFromSignalR).
                     Where(
-                        m => m.TagName == tag.TagName//.replace('--', '@@') //// Replace 可以拿掉
+                        m => m.TagName == tag.TagName
                     ).ToArray();
                 if (realTimeData.length == 0) { continue; }
                 // window.alert(realTimeData[0].TagName)
                 ele.innerText = realTimeData[0].ValueString;
                 setting_Style.changeTailWindClassNamesByValue(id, realTimeData[0].Value);
             }
+
+
+
+        }
+
+        for (var i = 0; i < defineLength; i++) {
+            var id = defineTags[i].TagName + "_" + setting_Staff.tagWayCode.DefinedMoistureMeterName;
+            var rowId = id + "_row";
+            var ele = document.getElementById(id);
+            if (ele != null) {
+                var tags = Enumerable.From(zk1_TianDistric.realTimeTagDataFromSignalR).Where(
+                    m => m.TagName == defineTags[i].TagName
+                ).ToArray();
+                if (tags.length == 0) { continue; }
+                ele.innerText = tags[0].ValueString;
+                setting_Style.changeTailWindClassNamesByValue(id, tags[0].Value);
+            }
+            var hasDefine = Enumerable.From(defindTagwayRelation).Where(
+                m => m.TagName == defineTags[i].TagName && m.FieldId == fieldId
+            )
+                .ToArray().length > 0;
+            if (hasDefine) {
+                document.getElementById(rowId).style.display = '';
+            }
+            else {
+                document.getElementById(rowId).style.display = 'none';
+            }
+
         }
     },
 
@@ -989,7 +1031,8 @@ var zk1_TianDistric = {
         var earthMoistureEquipmentAreaId = 'earthMoistureEquipmentArea';
         //土壤設備區域
         var earthMoistureEquipmentArea = document.getElementById(earthMoistureEquipmentAreaId);
-
+        // 土壤溼度計代碼
+        var definedMoistureMeterCode = setting_Staff.tagWayCode.DefinedMoistureMeter;
 
         // 溼度上下限設定區域Id
         var earthMoisturelimitAreaId = 'earthMoisturelimitArea'
@@ -1006,12 +1049,18 @@ var zk1_TianDistric = {
         // 測點的數量
         var tagLength = tagList.length;
 
-        if (tagLength == 0) {
+        var defineTags = Enumerable.From(staff.DefinedTagWayTagListUnitList).
+            Where(x => x.TagWayCode == definedMoistureMeterCode).
+            OrderBy(x => x.TagName).ToArray();
+
+        var defineLength = defineTags.length;
+        /*
+        if (tagLength + defineLength == 0) {
 
             earthMoisturelimitArea.style.display = 'none';
             earthMoistureEquipmentArea.innerHTML = '本田區没有土壤資訊設備'
         }
-        else {
+        else*/ {
             var contextHtml = '';
             for (var i = 0; i < tagLength; i += 2) {
                 var tag = tagList[i];
@@ -1019,37 +1068,41 @@ var zk1_TianDistric = {
                 var id1 = tagNames[0] + "--1_" + setting_Staff.tagWayCode.MoistureMeterName;   // 目前溼度
                 var id2 = tagNames[0] + "--2_??" + setting_Staff.tagWayCode.MoistureMeterName;   // 最高溼度             
                 var html = `
-             <tr
-                 class="bg-white border-b border-dashed dark:bg-gray-800 dark:border-gray-700">
-               <td
-                 class="p-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center">
-                 <span
-                     class="relative inline-block self-center mr-2">
-                     `
-                    + tag.Description +
-                    `</span>
-             </td>
-             <td
-                 class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400" id="`
-                    +
-                    id2
-                    +
-                    `">
+                <tr  class="bg-white border-b border-dashed dark:bg-gray-800 dark:border-gray-700">
+                   <td class="p-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center">
+                      <span class="relative inline-block self-center mr-2">`+ tag.Description + `</span>
+                   </td>
+                   <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400" id="`+ id2 + `">
                 
-             </td>
-             <td
-                 class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 text-right">
-                 <span
-                 class="rounded" id='`
-                    +
-                    id1
-                    +
-                    `'>+4.5</span>
-             </td>
-           </tr>
+                   </td>
+                   <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 text-right">
+                      <span class="rounded" id='` + id1 + `'>+4.5</span>
+                   </td>
+                </tr>
              `;
                 contextHtml += html;
             }
+            for (var i = 0; i < defineLength; i++) {
+                var tag = defineTags[i];
+                var tagName = tag.TagName;
+                var id = tagName + "_" + setting_Staff.tagWayCode.DefinedMoistureMeterName;   // 目前溼度
+                var rowId = id + "_row"
+                var html = `
+                <tr  style='display:none' id='`+ rowId + `' class="bg-white border-b border-dashed dark:bg-gray-800 dark:border-gray-700">
+                   <td class="p-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center">
+                      <span class="relative inline-block self-center mr-2">`+ tag.TagDescription + `</span>
+                   </td>
+                   <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400" >
+                
+                   </td>
+                   <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 text-right">
+                      <span class="rounded" id='` + id + `'>[溼度]</span>
+                   </td>
+                </tr>
+             `;
+                contextHtml += html;
+            }
+
             earthMoistureEquipmentArea.innerHTML = contextHtml;
         }
     },
@@ -1058,13 +1111,22 @@ var zk1_TianDistric = {
      * @method setWaterLevelInformationEquipmentList 取得水位資訊後, 顯示之
      * @param {*} informations 
      */
-    setWaterLevelInformationEquipmentList: function (informations) {
+    setWaterLevelInformationEquipmentList: function (informations, defindTagwayRelation) {
         var tagList = Enumerable.From(informations).
             Where(m => m.TagWay == setting_Staff.tagWayCode.WaterLevelGauge).
             OrderBy(m => m.FieldId).
             ThenBy(m => m.TagName).
             ToArray();
         var tagLegth = tagList.length;
+        var fieldId = zk1_TianDistric.fieldId;
+        // 水位計代碼
+        var definedWaterLevelGaugeCode = setting_Staff.tagWayCode.DefinedWaterLevelGauge;
+        var defineTags = Enumerable.From(zk1_TianDistric.staff.DefinedTagWayTagListUnitList).
+            Where(x => x.TagWayCode == definedWaterLevelGaugeCode).
+            OrderBy(x => x.TagName).ToArray();
+
+        var defineLength = defineTags.length;
+
         for (var i = 0; i < tagLegth; i++) {
             var tag = tagList[i];
             var id = tag.TagName + "_" + setting_Staff.tagWayCode.WaterLevelGaugeName;
@@ -1080,6 +1142,30 @@ var zk1_TianDistric = {
                 setting_Style.changeTailWindClassNamesByValue(id, realTimeData[0].Value);
             }
         }
+
+        for (var i = 0; i < defineLength; i++) {
+            var id = defineTags[i].TagName + "_" + setting_Staff.tagWayCode.DefinedWaterLevelGaugeName;
+            var rowId = id + "_row";
+            var ele = document.getElementById(id);
+            if (ele != null) {
+                var tags = Enumerable.From(zk1_TianDistric.realTimeTagDataFromSignalR).Where(
+                    m => m.TagName == defineTags[i].TagName
+                ).ToArray();
+                if (tags.length == 0) { continue; }
+                ele.innerText = tags[0].ValueString;
+                setting_Style.changeTailWindClassNamesByValue(id, tags[0].Value);
+            }
+            var hasDefine = Enumerable.From(defindTagwayRelation).Where(
+                m => m.TagName == defineTags[i].TagName && m.FieldId == fieldId
+            ).ToArray().length > 0;
+            if (hasDefine) {
+                document.getElementById(rowId).style.display = '';
+            }
+            else {
+                document.getElementById(rowId).style.display = 'none';
+            }
+
+        }
     },
 
     /**
@@ -1092,6 +1178,8 @@ var zk1_TianDistric = {
         var waterLevelLimitArea = document.getElementById(waterLevelLimitAreaId);
         // 水位設備區域 Id
         var waterLevelEquipmentAreaId = 'waterLevelEquipmentArea';
+        // 自定義水位計代碼
+        var defineWaterLevelGaugeCode = setting_Staff.tagWayCode.DefinedWaterLevelGauge;
         // 水位設備區域
         var waterLevelEquipmentArea = document.getElementById(waterLevelEquipmentAreaId);
         // 用戶資料
@@ -1105,42 +1193,54 @@ var zk1_TianDistric = {
             ToArray();
         // 測點的數量
         var tagLength = tagList.length;
-        if (tagLength == 0) {
+        var defineTags = Enumerable.From(staff.DefinedTagWayTagListUnitList).
+            Where(x => x.TagWayCode == defineWaterLevelGaugeCode).
+            OrderBy(x => x.TagName).ToArray();
+        var defineTagLength = defineTags.length;
+      /*  if (tagLength == 0) {
             waterLevelLimitArea.style.display = 'none';
             waterLevelEquipmentArea.innerHTML = '本田區没有水位資訊設備';
         }
-        else {
+        else*/ {
             var contextHtml = '';
             for (var i = 0; i < tagLength; i += 2) {
                 var tag = tagList[i];
                 var tagNames = tag.TagName.split('--');
                 var id1 = tagNames[0] + "--1_" + setting_Staff.tagWayCode.WaterLevelGaugeName;  // 目前水位
                 var id2 = tagNames[0] + "--2_??" + setting_Staff.tagWayCode.WaterLevelGaugeName;  // 最高水位
-                var html = `<tr
-                class="bg-white border-b border-dashed dark:bg-gray-800 dark:border-gray-700">
-                <td
-                    class="p-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center">
-                    <span
-                        class="relative inline-block self-center mr-2">
-                    `+ tag.Description + `</span>
-                </td>
-                <td  id="`
-                    +
-                    id2
-                    +
-                    `"
-                    class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
+                var html =
+                    `<tr class="bg-white border-b border-dashed dark:bg-gray-800 dark:border-gray-700">
+                   <td class="p-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center">
+                      <span class="relative inline-block self-center mr-2">
+                        `+ tag.Description + `</span>
+                   </td>
+                   <td  id="`+ id2 + `" class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
                    
-                </td>
-                <td
-                    class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 text-right">
-                    <span  id="`+
-                    id1
-                    + `"
-                       class="rounded">+4.5</span>
-                </td>
-            </tr>
+                   </td>
+                   <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 text-right">
+                    <span  id="`+ id1 + `" class="rounded">[水位]</span>
+                   </td>
+                </tr>
                 `;
+                contextHtml += html;
+            }
+            for (var i = 0; i < defineTagLength; i++) { // 預設看不到
+                var tag = defineTags[i];
+                var tagName = tag.TagName;
+                var id = tagName + "_" + setting_Staff.tagWayCode.DefinedWaterLevelGaugeName;
+                var rowId = id + "_row"
+                var html = `
+                <tr style='display:none' id='`+ rowId + `' class="bg-white border-b border-dashed dark:bg-gray-800 dark:border-gray-700">
+                      <td class="p-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center">
+                          <span class="relative inline-block self-center mr-2">`+ tag.TagDescription + `</span>
+                      </td>
+                      <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400" >
+                      </td>
+                      <td  class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400 text-right">
+                         <span class="rounded"" id='`+ id + `'>[水位]</span>
+                      </td>
+                </tr>
+              `;
                 contextHtml += html;
             }
             waterLevelEquipmentArea.innerHTML = contextHtml;

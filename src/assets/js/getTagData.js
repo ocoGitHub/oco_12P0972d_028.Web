@@ -83,11 +83,12 @@ var getTagData_ToGet = {
             if (realOk) {
                 if (getTagData_ToGet.okCallBack != null) {
                     //測點資料及、水閘門資料及警報歷史資料   
-
-                    getTagData_ToGet.okCallBack(result.Detail.TagList,
-                        result.Detail.MainWaterGateTagList,
-                        result.Detail.AlarmHistoryList,
-                       
+                    //console.log("=="+JSON.stringify(result.Detail.DefinedTagWayWithFieldRelationList));
+                    getTagData_ToGet.okCallBack(
+                        result.Detail.TagList,  // 測點列表
+                        result.Detail.MainWaterGateTagList,   // 水閘門
+                        result.Detail.AlarmHistoryList,        // 警報
+                        result.Detail.DefinedTagWayWithFieldRelationList  // 自定義
                     );
                 }
 

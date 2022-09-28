@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="">
+
+<head>
+    @@include("./partials/title-meta.html", {"title": "T-Wind"})
+
+    <link rel="stylesheet" href="assets/libs/jsvectormap/css/jsvectormap.min.css">
+
+    @@include('./partials/head-css.html')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/linq.js/2.2.0.2/linq.min.js" integrity="sha512-YjfMqQiOsDn17vJOLyrgFesm/wE36jyZIrYbmY4ChlFo+dxaAanQdo4xYWOAGQIDHQ9G5sIHTV4i5V4nzn/sQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
+
+    <script src="assets/js/pages/definedManagement.js"></script>
+
+
+
+</head>
+
+@@include('./partials/body.html')
+
+<!-- leftbar-tab-menu -->
+@@include('./partials/horizontal.html')
+
+<div class="container  mx-auto px-2">
+    <div class="flex flex-wrap">
+        <div class="flex items-center py-4 w-full">
+            <div class="w-full">
+                <div class="">
+                    <div class="flex flex-wrap justify-between">
+                        <div class="items-center ">
+                            <h1 class="font-semibold text-xl mb-0 block dark:text-slate-100">行政院農業委員會農業試驗所</h1>
+                            <ol class="list-reset flex text-sm">
+                                <li class="text-gray-500">田區智慧配水控制系統</li>
+                                <li><span class="text-gray-500 mx-2">/</span></li>
+                                <li class="text-blue-600 hover:text-blue-700">自定義管理</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end container-->
+
+<div class="container mx-auto px-2  min-h-[calc(100vh-138px)]  relative pb-14">
+
+    <!--end inner-grid-->
+    <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 mb-4">
+        <div class="sm:col-span-1  md:col-span-1 lg:col-span-1 xl:col-span-1 ">
+            <div class="h-full card w-full relative overflow-hidden">
+                <div class="card-header">
+                    <h4 class="font-medium">自定義設定</h4>
+                </div>
+                <div class="flex flex-col  card-body">
+                     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="inline-block py-2 min-w-full sm:px-6 lg:px-8">
+                            <div class="overflow-hidden">
+                                <table   class="min-w-full border">
+                                    <thead class="bg-gray-50 dark:bg-gray-700">
+                                        <tr>
+                                            <th scope="col" width="15%"
+                                                class="p-3   font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                                自定義項目
+                                            </th>
+                                            
+                                            <th scope="col"
+                                                class="p-3 text-left  font-medium tracking-wider text-left text-gray-700  dark:text-gray-400">
+                                                田區
+                                            </th>
+                                           
+                                        </tr>
+                                    </thead>
+                                    <!--#region  自定義項-->
+                                    <tbody id="app">
+                                        
+                                    </tbody>
+                                    <!--#endregion-->
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end inner-grid-->
+        </div>
+        
+    </div>
+    
+    <!--end inner-grid-->
+
+    <!-- footer -->
+    @@include('./partials/footer.html')
+</div>
+<!--end container-->
+
+<script src="assets/libs/simplebar/simplebar.min.js"></script>
+<script src="assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+<script src="assets/libs/jsvectormap/maps/world.js"></script>
+<script src="assets/libs/apexcharts/apexcharts.min.js"></script>
+<script src="assets/libs/echarts/echarts.min.js"></script>
+<script src="assets/js/pages/ecommerce-index.init.js"></script>
+<script src="assets/libs/chart.js/chart.min.js"></script>
+<script src="assets/js/pages/chartjs.init.js"></script>
+<script src="assets/libs/simple-datatables/umd/simple-datatables.js"></script>
+<script src="assets/js/pages/datatable.init.js"></script>
+<script src="assets/js/app.js"></script>
+
+<script>
+    $(function () {
+        var staff = horizontal.startUp();
+        definedManagement.startUp(staff);
+    });
+     
+
+</script>
+</body>
+
+</html>
