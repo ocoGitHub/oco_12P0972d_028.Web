@@ -1492,8 +1492,12 @@ var tagValueHistoryQuery = {
     tagValueHistoryStartDateId: 'tagValueHistoryStartDate',
     tagValueHistoryDurationId: 'tagValueHistoryDuration',
     datatableTagValueId: 'datatableTagValue',
+
     tagValueHistoryDisplayId: 'tagValueHistoryDisplay',
+    tagValueHistoryErrId:'tagValueHistoryErr',
     tagValueHistoryErrTextId: 'tagValueHistoryErrText',
+    tagValueHistoryWaitingId:'tagValueHistoryWaiting',
+
     startUp: function () {
         tagValueHistoryQuery.initialDeviceTypeSelector();
         tagValueHistoryQuery.initialDeviceNameSelector();
@@ -1536,6 +1540,20 @@ var tagValueHistoryQuery = {
                 devices = Enumerable.From(tags).
                     Where(m => m.TagWay == deviceCode).
                     Where(m => m.FieldId == zk1_TianDistric.fieldId).ToArray();
+                // 加入自定義
+                if (deviceCode == setting_Staff.tagWayCode.MoistureMeter) {  // 溼度
+                    // 加入自定義溼度計
+                    var tempDevice = Enumerable.From(tags).
+                        Where(m => m.TagWay == setting_Staff.tagWayCode.DefinedMoistureMeter).
+                        ToArray();
+                        devices=devices.concat(tempDevice);
+                }
+                else if (deviceCode == setting_Staff.tagWayCode.WaterLevelGauge) {  // 水位
+                    var tempDevice = Enumerable.From(tags).
+                        Where(m => m.TagWay == setting_Staff.tagWayCode.DefinedWaterLevelGauge).
+                        ToArray();
+                        devices=devices.concat(tempDevice);
+                }
             }
             var length = devices.length;
             var html = ``;
@@ -1556,6 +1574,7 @@ var tagValueHistoryQuery = {
             DataDuration: 0,//int
             StartTime: '',
             TagName: '',
+            FieldId:zk1_TianDistric.fieldId,
         };
         reqParameter.DataDuration = parseInt(document.getElementById(tagValueHistoryQuery.tagValueHistoryDurationId).value);
         reqParameter.StartTime = document.getElementById(tagValueHistoryQuery.tagValueHistoryStartDateId).value;
@@ -1577,7 +1596,7 @@ var tagValueHistoryQuery = {
         );
     },
     beforeSendCallback: function () {
-
+        tagValueHistoryQuery.displayWaiting();
     },
     okCallback: function (result, resultText, status) {
         var realOk = webApi.isApiResultOK(result.ReturnCode);
@@ -1599,26 +1618,61 @@ var tagValueHistoryQuery = {
 
             //  dataTableNoAjax.buttons.buttons=dataTableNoAjax_defaultButtons;
             $('#' + tagValueHistoryQuery.datatableTagValueId).DataTable(dataTableNoAjax);
-            document.getElementById(tagValueHistoryQuery.tagValueHistoryDisplayId).style.display = '';
-            document.getElementById(tagValueHistoryQuery.tagValueHistoryErrTextId).style.display = 'none';
+           // document.getElementById(tagValueHistoryQuery.tagValueHistoryDisplayId).style.display = '';
+            //document.getElementById(tagValueHistoryQuery.tagValueHistoryErrTextId).style.display = 'none';
+            tagValueHistoryQuery.displayOk();
         }
         else {
             var message = result.ReturnMessage + "(" + result.ReturnCode + ")";
-            document.getElementById(tagValueHistoryQuery.tagValueHistoryDisplayId).style.display = 'none';
-            document.getElementById(tagValueHistoryQuery.tagValueHistoryErrTextId).style.display = '';
-            document.getElementById(tagValueHistoryQuery.tagValueHistoryErrTextId).innerHTML = message
+            //document.getElementById(tagValueHistoryQuery.tagValueHistoryDisplayId).style.display = 'none';
+            //document.getElementById(tagValueHistoryQuery.tagValueHistoryErrTextId).style.display = '';
+            //document.getElementById(tagValueHistoryQuery.tagValueHistoryErrTextId).innerHTML = message
+
+            tagValueHistoryQuery.displayErr(message);
         }
     },
     failedCallback: function (err) {
         var message = err.statusText + "(" + err.status + ")";
-        document.getElementById(tagValueHistoryQuery.tagValueHistoryDisplayId).style.display = 'none';
-        document.getElementById(tagValueHistoryQuery.tagValueHistoryErrTextId).style.display = '';
-        document.getElementById(tagValueHistoryQuery.tagValueHistoryErrTextId).innerHTML = message
+      //  document.getElementById(tagValueHistoryQuery.tagValueHistoryDisplayId).style.display = 'none';
+        //document.getElementById(tagValueHistoryQuery.tagValueHistoryErrTextId).style.display = '';
+        //document.getElementById(tagValueHistoryQuery.tagValueHistoryErrTextId).innerHTML = message
+        tagValueHistoryQuery.displayErr(message);
     },
     completeCallback: function () {
 
-    }
+    },
 
+    hideAllAreas:function(){
+        tagValueHistoryQuery.hideMainDisplayer();
+        tagValueHistoryQuery.hideWaiting();
+        tagValueHistoryQuery.hideErr();
+    },
+
+    hideMainDisplayer:function(){
+        document.getElementById(tagValueHistoryQuery.tagValueHistoryDisplayId).style.display='none';
+    },
+
+    hideWaiting:function(){
+        document.getElementById(tagValueHistoryQuery.tagValueHistoryWaitingId).style.display='none';
+    },
+    displayWaiting:function(){
+        tagValueHistoryQuery.hideAllAreas();
+        document.getElementById(tagValueHistoryQuery.tagValueHistoryWaitingId).style.display='';
+    },
+
+    hideErr:function(){
+        document.getElementById(tagValueHistoryQuery.tagValueHistoryErrId).style.display='none';
+    },
+    displayErr:function(text){
+        tagValueHistoryQuery.hideAllAreas();
+        document.getElementById(tagValueHistoryQuery.tagValueHistoryErrId).style.display='';
+        document.getElementById(tagValueHistoryQuery.tagValueHistoryErrTextId).innerText=text;
+    },
+    
+    displayOk:function(){
+        tagValueHistoryQuery.hideAllAreas();
+        document.getElementById(tagValueHistoryQuery.tagValueHistoryDisplayId).style.display='';
+    }
 
     //#endregion
 
