@@ -115,6 +115,7 @@ var definedManagement_Update={
     apiResourceName: 'Tag/DefineTagManagementUpdate',
     execute: function (reqParameters) {  // 没有參數
         //staffLogin_Login.setParameters(parameter);
+        console.log("definedManagement_Update:",JSON.stringify(reqParameters))
         webApi.send(
             webApi.methods.post,
             definedManagement_Update.apiResourceName,
