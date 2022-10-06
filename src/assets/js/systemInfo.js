@@ -20,6 +20,13 @@ var systemInfo = {
 
     developInfo: [
         {
+            deployTime: '2022/10/06 14:10:00',
+            version: 'DEV.01.00.00.004X',
+            webApiVerion:'',
+            webApiUrl: 'DEV.00.00.00.04',
+            signalRUrl: ''
+        },
+        {
             deployTime: '2022/09/30 10:00:00',
             version: 'DEV.01.00.00.004',
             webApiUrl: '',
@@ -57,6 +64,19 @@ var systemInfo = {
         }
     ],
     masterInfo: [
+        {
+            deployTime: '2022/10/06 14:15:00',
+            version: 'MAS.01.00.00.004X',
+            webApiVersion:'MAS.00.00.00.04',
+            webApiUrl: '',
+            signalRUrl: ''
+        },
+         {
+            deployTime: '2022/09/30 10:30:00',
+            version: 'MAS.01.00.00.004',
+            webApiUrl: '',
+            signalRUrl: ''
+        },
         {
             deployTime: '2022/09/30 10:30:00',
             version: 'MAS.01.00.00.004',
