@@ -21,7 +21,40 @@ var zk1_TianDistric = {
         zk1_TianDistric.realTimeTagDataFromSignalR = JSON.parse(JSON.stringify(datas));
         // console.log("zk1_TianDistric:" + JSON.stringify(datas))
     },
+    gateStateFlashValue:0,
+    gateMustflash:true,
+    setGateStateFlash:function(stateTags){
+        zk1_TianDistric.gateStateFlashValue++;
+         if(zk1_TianDistric.gateStateFlashValue==2){zk1_TianDistric.gateStateFlashValue=0;}
+         var length=stateTags.length;
+         for(var i=0;i<length;i++){
+            var tag=stateTags[i];
+            var tagName=tag.TagName;
+            var dom=document.getElementById(tagName);
+            if(dom==null){continue;}
+            var jq = $("#" + tagName);
+            var tagRs=Enumerable.From(zk1_TianDistric.realTimeTagDataFromSignalR).Where(m=>m.TagName==tagName).ToArray();
+            if(tagRs.length==0){continue;}
+           
+            var tagValue=tagRs[0].Value;
+            console.log(tagName, tagValue, new Date());
+            jq.removeClass("text-red-500");
+            jq.removeClass("text-blue-500");
+            if(tagValue==zk1_TianDistric.gateMustflash){
+                if( zk1_TianDistric.gateStateFlashValue==0){
+                    jq.addClass("text-blue-500");
+                }
+                else{
+                    jq.addClass("text-red-500");
+                }
+            }
 
+            else{
+                jq.addClass("text-red-500");
+            }
+
+         }
+    },
     /**
      * @property waterGateWaterLevel_LowBoundSetId 設定 模式一~水位低限的文字盒
      */
@@ -328,6 +361,14 @@ var zk1_TianDistric = {
 
         //設定警報歷史資料(在 Horizontal.html)
         horizontal.displayAlarmHistory(alarmHistories)
+
+           //閘門狀態測點集合
+        var waterGateStateTagList = Enumerable.From(rtnData).
+         Where(m => m.TagWay == setting_Staff.tagWayCode.ElectricWaterGateState).
+           ToArray();
+       //開關/閘門閃爍     
+       zk1_TianDistric.setGateStateFlash(waterGateStateTagList);
+
 
     },
     /** 
@@ -806,9 +847,9 @@ var zk1_TianDistric = {
                     <a  href="#"  onclick="zk1_TianDistric.setControlModeToManual('`+ tagNames[0] + `--2')"><i title="手動控制"
                             class="ti ti-hand-stop text-lg text-gray-500 dark:text-gray-400"></i></a><br/>
                     <a  href="#" onclick="zk1_TianDistric.openWatergate('`+ tagNames[0] + `--3')"><i title="開啟閘門"
-                            class="ti ti-arrow-big-top text-lg text-red-500 dark:text-red-400"></i></a>
+                            class="ti ti-arrow-big-top text-lg text-red-500 dark:text-red-400" id="ST_`+tagNames[0]+`--3"></i></a>
                     <a  href="#"  onclick="zk1_TianDistric.closeWatergate('`+ tagNames[0] + `--4')"><i title="關閉閘門"
-                            class="ti ti-arrow-big-down text-lg text-red-500 dark:text-red-400"></i></a>
+                            class="ti ti-arrow-big-down text-lg text-red-500 dark:text-red-400" id="ST_`+ tagNames[0] +`--4"></i></a>
                     <a  href="#"  onclick="zk1_TianDistric.stopWatergateOpenClose('`+ tagNames[0] + `--5')"><i title="停止閘門"
                             class="ti ti-player-stop text-lg text-red-500 dark:text-red-400"></i></a>
                 </td>
@@ -844,9 +885,9 @@ var zk1_TianDistric = {
                         <td  class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
                           
                           <a  href="#" onclick="zk1_TianDistric.openWatergate('`+ blockTagNames[0] + `--3')"><i title="開啟閘門"
-                          class="ti ti-arrow-big-top text-lg text-red-500 dark:text-red-400"></i></a>
+                          class="ti ti-arrow-big-top text-lg text-red-500 dark:text-red-400" id="ST_`+ blockTagNames[0] +`--3"></i></a>
                   <a  href="#"  onclick="zk1_TianDistric.closeWatergate('`+ blockTagNames[0] + `--4')"><i title="關閉閘門"
-                          class="ti ti-arrow-big-down text-lg text-red-500 dark:text-red-400"></i></a>
+                          class="ti ti-arrow-big-down text-lg text-red-500 dark:text-red-400" id="ST_`+  blockTagNames[0] +`--4"></i></a>
                   <a  href="#"  onclick="zk1_TianDistric.stopWatergateOpenClose('`+ blockTagNames[0] + `--5')"><i title="停止閘門"
                           class="ti ti-player-stop text-lg text-red-500 dark:text-red-400"></i></a>
                         </td>

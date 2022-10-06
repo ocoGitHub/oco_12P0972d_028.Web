@@ -17,6 +17,40 @@ var index = {
         index.realTimeTagDataFromSignalR = JSON.parse(JSON.stringify(datas));
         //   console.log("index:" +JSON.stringify(datas) );
     },
+    gateStateFlashValue:0,
+    gateMustflash:true,
+    setGateStateFlash:function(stateTags){
+         index.gateStateFlashValue++;
+         if(index.gateStateFlashValue==2){index.gateStateFlashValue=0;}
+         var length=stateTags.length;
+         for(var i=0;i<length;i++){
+            var tag=stateTags[i];
+            var tagName=tag.TagName;
+            var dom=document.getElementById(tagName);
+            if(dom==null){continue;}
+            var jq = $("#" + tagName);
+            var tagRs=Enumerable.From(index.realTimeTagDataFromSignalR).Where(m=>m.TagName==tagName).ToArray();
+            if(tagRs.length==0){continue;}
+           
+            var tagValue=tagRs[0].Value;
+            console.log(tagName, tagValue, new Date());
+            jq.removeClass("text-red-500");
+            jq.removeClass("text-blue-500");
+            if(tagValue==index.gateMustflash){
+                if( index.gateStateFlashValue==0){
+                    jq.addClass("text-blue-500");
+                }
+                else{
+                    jq.addClass("text-red-500");
+                }
+            }
+
+            else{
+                jq.addClass("text-red-500");
+            }
+
+         }
+    },
 
     // 錯誤的 Model
     getDataErrObj: {
@@ -231,7 +265,7 @@ var index = {
     /**
      * @method setWaterLevelInformation 設定水位資訊
      */
-    setWaterLevelInformation: function (rtnData,defineTagWayRelation) {
+    setWaterLevelInformation: function (rtnData, defineTagWayRelation) {
 
         //#region 既有水位資訊
         var levels = Enumerable.From(rtnData).
@@ -471,6 +505,13 @@ var index = {
     },
 
 
+    /**
+     * 
+     * @param {*} rtnData 測點列表 
+     * @param {*} mainGate 水閘門
+     * @param {*} alarmHistories 警報
+     * @param {*} defindTagwayRelation 自定義 
+     */
     getTagDataOk: function (rtnData, mainGate, alarmHistories, defindTagwayRelation) {
 
         // 設定 進水量,灌溉量,排水量
@@ -487,6 +528,14 @@ var index = {
         //設定警報歷史資料(在 Horizontal.html)
         horizontal.displayAlarmHistory(alarmHistories)
         // console.log("AlarmHistory:" + JSON.stringify(alarmHistories)); 
+
+        //閘門狀態測點集合
+        var waterGateStateTagList = Enumerable.From(rtnData).
+            Where(m => m.TagWay == setting_Staff.tagWayCode.ElectricWaterGateState).
+            ToArray();
+        //開關/閘門閃爍     
+        index.setGateStateFlash(waterGateStateTagList);
+
     },
     getTagDataFailed: function (errObj) {
         index.getDataErrObj = errObj;
@@ -661,9 +710,9 @@ var index = {
                <a href="#"  onclick="index.setControlModeToManual('`+ tagNames[0] + `--2')"><i title="手動控制"
                        class="ti ti-hand-stop text-lg text-gray-500 dark:text-gray-400"></i></a><br/>
                <a href="#" onclick="index.openWatergate('`+ tagNames[0] + `--3')"><i title="開啟閘門"
-                       class="ti ti-arrow-big-top text-lg text-red-500 dark:text-red-400"></i></a>
+                       class="ti ti-arrow-big-top text-lg text-red-500 dark:text-red-400" id="ST_`+ tagNames[0] + `--3"></i></a>
                <a href="#"  onclick="index.closeWatergate('`+ tagNames[0] + `--4')"><i title="關閉閘門"
-                       class="ti ti-arrow-big-down text-lg text-red-500 dark:text-red-400"></i></a>
+                       class="ti ti-arrow-big-down text-lg text-red-500 dark:text-red-400" id="ST_`+ tagNames[0] + `--4"></i></a>
                <a href="#" onclick="index.stopWatergateOpenClose('`+ tagNames[0] + `--5')"><i title="停止閘門"
                        class="ti ti-player-stop text-lg text-red-500 dark:text-red-400"></i></a>
            </td>
@@ -701,9 +750,9 @@ var index = {
                         <td class="p-3 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
                        
                         <a href="#" onclick="index.openWatergate('`+ blockNames[0] + `--3')"><i title="開啟閘門"
-                                class="ti ti-arrow-big-top text-lg text-red-500 dark:text-red-400"></i></a>
+                                class="ti ti-arrow-big-top text-lg text-red-500 dark:text-red-400" id="ST_`+blockNames[0]+`--3"></i></a>
                         <a href="#"  onclick="index.closeWatergate('`+ blockNames[0] + `--4')"><i title="關閉閘門"
-                                class="ti ti-arrow-big-down text-lg text-red-500 dark:text-red-400"></i></a>
+                                class="ti ti-arrow-big-down text-lg text-red-500 dark:text-red-400" id="ST_`+blockNames[0]+`--4"></i></a>
                         <a href="#" onclick="index.stopWatergateOpenClose('`+ blockNames[0] + `--5')"><i title="停止閘門"
                                 class="ti ti-player-stop text-lg text-red-500 dark:text-red-400"></i></a>
                     </td>

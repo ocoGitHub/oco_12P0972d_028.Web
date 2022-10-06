@@ -303,6 +303,11 @@ var setting_Staff = {
       */
     ElectricBlockWaterGate: 41,
 
+    /**
+     * @proprty ElectricBlockWaterGate  田區擋水閘門、進水閘門的狀態
+     */
+    ElectricWaterGateState:42,
+
     MoistureMeterName: 'moistureMeterName',
 
     WaterFlowMeterName: 'waterFlowMeterName',
