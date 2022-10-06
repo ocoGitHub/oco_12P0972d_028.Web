@@ -22,8 +22,8 @@ var systemInfo = {
         {
             deployTime: '2022/10/06 14:10:00',
             version: 'DEV.01.00.00.004X',
-            webApiVerion:'',
-            webApiUrl: 'DEV.00.00.00.04',
+            webApiVerion:'DEV.00.00.00.04',
+            webApiUrl: '',
             signalRUrl: ''
         },
         {
