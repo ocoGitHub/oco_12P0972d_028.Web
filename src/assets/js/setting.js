@@ -8,9 +8,9 @@ var setting = {
     */
   getConfig: function () {
   // return setting.configSetting.task;
-   return setting.configSetting.develop;
+  // return setting.configSetting.develop;
     //return setting.configSetting.release;
-    // return setting.configSetting.master;
+     return setting.configSetting.master;
   },
 
 
